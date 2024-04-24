@@ -1,12 +1,12 @@
 ---
 # ------------------------------------------------------------------------------
-# Setup necessary kernel parameters
+# Setup necessary kernel parameters and reload using sysctl -p
 # ------------------------------------------------------------------------------
 - name: setup necessary kernel parameters 
-  become: yes
+  become: true
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
-    reload: no
+    reload: true
   with_items: "{{ kernel_params }}"
