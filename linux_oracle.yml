@@ -1,8 +1,5 @@
-- hosts: opsdev
-  user: root
+- hosts: localhost
  
   roles:
     - sudo #Skipped during check  mode
-
-
-  #  - linuxfororacle_prep
+    - linuxfororacle_prep

@@ -32,6 +32,7 @@
 
   block:
   #   - import_tasks: oracle_kernelparams.yml
+    - import_tasks: facts_to_file.yml
     - import_tasks: oracle_packages.yml
   #   - import_tasks: oracle_disable_firewall.yml
   #   #- import_tasks: oracle_groups.yml
