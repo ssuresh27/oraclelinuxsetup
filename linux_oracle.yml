@@ -2,4 +2,7 @@
   user: root
  
   roles:
-   - linuxfororacle_prep
+    - sudo #Skipped during check  mode
+
+
+  #  - linuxfororacle_prep

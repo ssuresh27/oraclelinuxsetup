@@ -1,0 +1,17 @@
+---
+#------------------------------------
+#  Check the SUDO access of user
+#------------------------------------
+    - name: Check SUDO access
+      become: true
+      become_exe: "sudo su - "
+      become_method: su
+      command: id -u
+      register: id_output
+
+    - assert:
+        that: id_output.stdout == '0'
+    - name: Resutlt of SUDO
+      ansible.builtin.debug:
+        msg: "For sudo access the result should be '0',
+              The acutal is : {{ id_output.stdout }}"

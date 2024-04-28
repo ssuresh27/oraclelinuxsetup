@@ -1,10 +1,10 @@
-oracle_install_group: oinstall
+oracle_install_group: oradba
 oracle_groups:
-  - dba
-  - oinstall
-  - oper
-  - asmdba
-  - asmdba
+  - oradba
+  # - oinstall
+  # - oper
+  # - asmdba
+  # - asmdba
 
 root_user: root
 oracle_user: oracle
@@ -20,28 +20,7 @@ oracle_base: /u02/app
 first_node: opsdev
 ansible_hostname: opsdev
 
-packages_list:
-  - compat-libcap1
-  - gcc
-  - gcc-c++
-  - glibc
-  - glibc.i686
-  - glibc-devel
-  - glibc-devel.i686
-  - ksh
-  - libaio.i686
-  - libaio-devel
-  - libaio-devel.i686
-  - libstdc++.i686
-  - libstdc++-devel
-  - libstdc++-devel.i686
-  - libXi
-  - libXi.i686
-  - libXtst
-  - libXtst.i686
-  - sysstat
-  - unixODBC
-  - unzip
+
 
 kernel_params:
 # Shared memory and semaphore /etc/sysctl.d/98-oracle.conf or /etc/sysctl.conf
