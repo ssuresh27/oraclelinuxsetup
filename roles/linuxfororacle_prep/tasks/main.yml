@@ -22,25 +22,25 @@
     msg:
       - 'This playbook is for setting setting up Oracle Database Software requirement {{ansible_date_time.iso8601}}:'
 
-- include_vars: rhel8_environment_vars.yml
-  when: ansible_distribution_major_version == "8"
+# - include_vars: rhel8_environment_vars.yml
+#   when: ansible_distribution_major_version == "8"
 
-- include_vars: rhel9_environment_vars.yml
-  when: ansible_distribution_major_version == "9"
+# - include_vars: rhel9_environment_vars.yml
+#   when: ansible_distribution_major_version == "9"
 
 - name: Preparation tasks for hosting Oracle database
 
   block:
-  #   - import_tasks: oracle_kernelparams.yml
-    - import_tasks: facts_to_file.yml
+    # - import_tasks: oracle_kernelparams.yml
+    # - import_tasks: facts_to_file.yml
     - import_tasks: oracle_packages.yml
   #   - import_tasks: oracle_disable_firewall.yml
   #   #- import_tasks: oracle_groups.yml
   #   - import_tasks: oracle_users.yml
   #   - import_tasks: grid_users.yml
-  #   - import_tasks: oracle_users_shell_limit.yml
+    # - import_tasks: oracle_users_shell_limit.yml
   #   - import_tasks: oracle_grid_shell_limit.yml
-  #   - import_tasks: oracle_host_fileupdate.yml
+    # - import_tasks: oracle_host_fileupdate.yml
   #   - import_tasks: create_required_dirs.yml
   #   - import_tasks: oracle_ssh_equi.yml
   #   - import_tasks: oracle_cp_preinstallfile.yml

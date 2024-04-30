@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 - name: setup necessary kernel parameters 
   become: true
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present

@@ -4,13 +4,15 @@
 # ------------------------------------------------------------------
 - name: Update the /etc/hosts file with node name
   tags: etchostsupdate
-  become: yes
-  become_user: root
+  # become: yes
+  # become_user: root
   lineinfile:
     path: "/etc/hosts"
-    regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-    line: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+    # regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+    # line: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
+    regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_fqdn']}}\t{{ hostvars[item]['hostname']}}"
+    line: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_fqdn']}}\t{{ hostvars[item]['hostname']}}"
     state: present
     backup: yes
   register: etchostsupdate
-  with_items: "{{groups['opsdevt']}}"
+  # with_items: "{{ oraclegroups['opsdevt'] }}"

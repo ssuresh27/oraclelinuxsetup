@@ -6,20 +6,16 @@ oracle_groups:
   # - asmdba
   # - asmdba
 
-root_user: root
-oracle_user: oracle
-grid_user: grid
+# root_user: root
+# oracle_user: oracle
+# grid_user: grid
 
-oraclepasswd: oracle
-gridpasswd: oracle
+# oraclepasswd: oracle
+# gridpasswd: oracle
 
-root_dir: /u02
-stage_dir: /u02/stage
-oracle_base: /u02/app
-
-first_node: opsdev
-ansible_hostname: opsdev
-
+# root_dir: /u02
+# stage_dir: /u02/stage
+# oracle_base: /u02/app
 
 
 kernel_params:

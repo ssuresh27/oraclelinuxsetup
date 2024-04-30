@@ -2,33 +2,34 @@
 # https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/supported-red-hat-enterprise-linux-8-distributions-for-x86-64.html#GUID-B1487167-84F8-4F8D-AC31-A4E8F592374B
 
 packages_list:
-  - bc
-  - binutils
-  - elfutils-libelf
-  - elfutils-libelf-devel
-  - fontconfig-devel
-  - glibc
-  - glibc-devel
-  - ksh
-  - libaio
-  - libaio-devel
-  - libXrender
-  - libX11
-  - libXau
-  - libXi
-  - libXtst
-  - libgcc
-  - libnsl
-  - librdmacm
-  - libstdc++
-  - libstdc++-devel
-  - libxcb
-  - libibverbs
-  - make
-  - policycoreutils
-  - policycoreutils-python-utils
-  - smartmontools
-  - sysstat
-  #Additional
-  - mutt
-  - unzip
+  - { bc }
+  # - { name: rpm, value: binutils }
+  # - elfutils-libelf
+  # - elfutils-libelf-devel
+  # - fontconfig-devel
+  # - glibc
+  # - glibc-devel
+  # - ksh
+  # - libaio
+  # - libaio-devel
+  # - libXrender
+  # - libX11
+  # - libXau
+  # - libXi
+  # - libXtst
+  # - libgcc
+  # - libnsl
+  # - librdmacm
+  # - libstdc++
+  # - libstdc++-devel
+  # - libxcb
+  # - libibverbs
+  # - make
+  # - policycoreutils
+  # - policycoreutils-python-utils
+  # - smartmontools
+  # - sysstat
+  # #Additional
+  # - mutt
+  # - unzip
+# when: ansible_distribution_major_version == '8'
