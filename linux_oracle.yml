@@ -1,5 +1,5 @@
 - hosts: localhost
  
   roles:
-    - sudo #Skipped during check  mode
+    # - sudo #Skipped during check  mode
     - linuxfororacle_prep

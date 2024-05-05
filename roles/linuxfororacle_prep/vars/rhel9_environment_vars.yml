@@ -1,6 +1,0 @@
-# RHEL 9 Pre-req setup
-# https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/supported-red-hat-enterprise-linux-8-distributions-for-x86-64.html#GUID-B1487167-84F8-4F8D-AC31-A4E8F592374B
-
-packages_list:
-  rpm: bc
-  # - { name: rpm, value: mutt }
