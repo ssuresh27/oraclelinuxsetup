@@ -7,7 +7,7 @@ oracle_groups:
   # - asmdba
 
 # root_user: root
-# oracle_user: oracle
+oracle_user: oracle
 # grid_user: grid
 
 # oraclepasswd: oracle
@@ -44,15 +44,3 @@ soft_stack: 10240
 hard_stack: 32768
 soft_memlock: 1887437
 hard_memlock: 1887437
-
-
-# - include_vars: test_environment_vars.yml
-#   when: global_platform == "test"
-
-# - include_vars: staging_environment_vars.yml
-#   when: global_platform == "staging"
-
-# - include_vars: prod_environment_vars.yml
-#   when: 
-#     - global_platform != "test" 
-#     - global_platform != "staging" 

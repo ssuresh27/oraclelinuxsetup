@@ -12,7 +12,7 @@
       enabled:          no
       state:            stopped
 
-  become:               yes
+  become:               true
   become_user:          root
   tags:                 disable_firewall
 ...

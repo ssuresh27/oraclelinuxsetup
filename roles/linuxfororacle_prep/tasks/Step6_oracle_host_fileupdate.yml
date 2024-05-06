@@ -10,7 +10,7 @@
     path: "/etc/hosts"
     # regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
     # line: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_hostname']}}\t{{ hostvars[item]['ansible_hostname']}}"
-    regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_fqdn']}}\t{{ hostvars[item]['hostname']}}"
+    regexp: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}"
     line: "{{ hostvars[item]['ansible_env'].SSH_CONNECTION.split(' ')[2] }}\t{{ hostvars[item]['ansible_fqdn']}}\t{{ hostvars[item]['hostname']}}"
     state: present
     backup: yes

@@ -30,6 +30,6 @@
       - "{{ groups['opsdevt'] }}"
 
   when: inventory_hostname in groups['opsdevt']
-  become:               yes
+  become:               true
   become_user:          oracle
 

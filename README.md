@@ -1,7 +1,7 @@
 # oraclelinuxsetup
-README FILE: Linux setup for Oracle Software Installation
+README FILE: RHEL 8 /9 Linux setup for Oracle Software Installation
 
-oracle readiness for Oracle Database software install 
+Oracle readiness for Oracle Database software install 
  
 This Ansible Playbook can help you to to setup necessary configuration for installating Oracle Database software into the Linux environemnt.
 Please make sure you modify the necessary variables as per your own setup. Always play/test into lower setup multiple times before implementing into the 
@@ -10,24 +10,24 @@ actual live system.
 ```
 Summary Steps with this Ansible playbook are as below : 
 
-1. Set kernel parameters
-2. Install required operating system packages
-3. Disable firewalls
-4. Create necessary OS groups and users
+1. Write all the default ansible facts to localhost (control node) - default behaviour
+2. The scripts are executed using oracle user and executes using SUDO access
+3. Set kernel parameters as per Oracle recommendation
+4. Install required operating system packages
+5. Create necessary OS groups and users
 5. Create necessary OS users
 6. Set up shell limit for oracle user
-7. Set up shell limit for grid user
-8. Update /etc/hosts file entry
-9. Create required directories
-10.configure user equivalence
-11. Install Oracle Pre-Install RPM
-12. Editing profile entries
+7. Update /etc/hosts file entry
+8. Create required directories
+9.configure user equivalence
+10. Install Oracle Pre-Install RPM
+11. Editing profile entries
 ```
 
 Tree Structure for this playbook is as below - 
 
 ### Setup:
- * OS: OEL 7.5 
+ * OS: RHEL 8 and 9
  * Ansible: ansible 2.7.6
  * Database Version: Oracle 21.3 Linux64
 
