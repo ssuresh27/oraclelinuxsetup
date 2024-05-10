@@ -17,7 +17,7 @@
 # 12. Editing profile entries
 # ==============================================================================
 
-- name: display pre installation of setting up Oracle Database Software requirements into the Linux OS
+- name: Display pre installation of setting up Oracle Database Software requirements for RHEL 8 and later
   debug:
     msg:
       - 'This playbook is for setting setting up Oracle Database Software requirement {{ansible_date_time.iso8601}}:'

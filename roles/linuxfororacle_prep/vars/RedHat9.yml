@@ -1,0 +1,35 @@
+# RHEL 9 Pre-req setup
+# https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/supported-red-hat-enterprise-linux-9-distributions-for-x86-64.html#GUID-B1487167-84F8-4F8D-AC31-A4E8F592374B
+packages_list:
+  - bc 
+  - binutils
+  - compat-openssl11
+  - elfutils-libelf
+  - fontconfig
+  - glibc
+  - glibc-devel
+  - ksh
+  - libaio
+  - libasan
+  - liblsan
+  - libX11
+  - libXau
+  - libXi
+  - libXrender
+  - libXtst
+  - libxcrypt-compat
+  - libgcc
+  - libibverbs
+  - libnsl
+  - librdmacm
+  - libstdc++
+  - libxcb
+  - libvirt-libs
+  - make
+  - policycoreutils
+  - policycoreutils-python-utils
+  - smartmontools
+  - sysstat
+  #Additional
+  - mutt
+  - unzip
