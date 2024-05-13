@@ -27,7 +27,7 @@ kernel_params:
 - { name: kernel.shmmni, value: 4096 }
 - { name: kernel.shmall, value: 1073741824 }
 # 80% of Memory
-- { name: kernel.shmmax, value: "{{ ansible_memtotal_mb * 0.8 * 1024 * 1024 }}" }
+- { name: kernel.shmmax, value: "{{ (ansible_memtotal_mb * 0.8 * 1024 * 1024) | int }}" }
 - { name: kernel.panic_on_oops, value: 1 }
 - { name: net.core.rmem_default, value: 262144 }
 - { name: net.core.rmem_max, value: 4194304 }
@@ -47,5 +47,5 @@ hard_nproc: 16384
 soft_stack: 10240
 hard_stack: 32768
 # 90% of Total memory in KB 
-soft_memlock: "{{ ansible_memtotal_mb * 0.9 * 1024 }}" 
-hard_memlock: "{{ ansible_memtotal_mb * 0.8 * 1024 }}"
+soft_memlock: "{{ (ansible_memtotal_mb * 0.9 * 1024) | int }}" 
+hard_memlock: "{{ (ansible_memtotal_mb * 0.8 * 1024) | int }}"

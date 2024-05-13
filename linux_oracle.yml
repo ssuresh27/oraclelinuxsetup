@@ -1,7 +1,7 @@
 - hosts: localhost
   vars:
     oracle_base: /orabin/oracle
-    oracle_home: /orabin/oracle/product/19.0.0.0
+    oracle_home: /orabin/oracle/product/19.0.0
     oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
  
   roles:
