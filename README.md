@@ -39,12 +39,16 @@ roles                  | tasks
 linux_oracle.yml       |  **settings for installing Oracle Database**
 
 ```
-[root@oel75 ansible]# cat linux_oracle.yml
-- hosts: opsdev
-  user: root
-
+- hosts: all
+  vars:
+    oracle_base: /orabin/oracle
+    oracle_home: /orabin/oracle/product/19.0.0/dbhome1
+    oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
+ 
   roles:
-   - linuxfororacle_prep
+    # - sudo #Skipped during check  mode
+    - linuxfororacle_prep
+
 ```
 ## Tree structure of this playbook
 ```
