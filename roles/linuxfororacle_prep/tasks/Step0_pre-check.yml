@@ -8,6 +8,10 @@
     path: "{{ oracle_home }}"
   register: fs_stats
 
+- name: Oracle Home status
+  debug:
+    msg: "{{ oracle_home }} {{fs_stats}}"
+
 - name: ORACLE_HOME Directry already exists
   ansible.builtin.fail:
     msg: "{{ oracle_home }} directroy already exists"
@@ -28,7 +32,7 @@
 - name: Oracle OS user status
   ansible.builtin.fail:
     msg: "User {{ oracle_user }}  exists with uid {{ oracle_user_uid }}"
-  when:  (user_stats.uid != 500 )
+  when:  user_stats.uid != 500
 
 
 - name: Check if oradba group  is exists with group id
@@ -46,4 +50,17 @@
 - name: oradba group status
   ansible.builtin.fail:
     msg: "Group {{ group_stats }}  exists with gid {{ oracle_install_group_uid }}"
-  when:  (group_stats.gid != 503 )
+  when:  group_stats.gid != 503
+
+- name: Check if oracle software is accessible
+  ansible.builtin.stat:
+    path: "{{ oracle_gold_image }}"
+    get_checksum: false
+  register: ora_bin
+
+- name: Error Oracle Home image/software is not available 
+  ansible.builtin.fail:
+    msg: "Oracle Binary {{ oracle_gold_image }}  not exists"
+  when: ora_bin.stat.exists == False
+
+  

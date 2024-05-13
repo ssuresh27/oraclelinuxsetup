@@ -13,11 +13,12 @@ oracle_groups:
 # oraclepasswd: oracle
 # gridpasswd: oracle
 
-# root_dir: /u02
-# stage_dir: /u02/stage
-oracle_base: /orabin/oracle
-oracle_home: /orabin/oracle/product/19.0.0
+# oracle_base: /orabin/oracle
+# oracle_home: /orabin/oracle/product/19.0.0
+# oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
 
+
+# SHMAX: "{{ ansible_memtotal_mb * 0.8 }}"
 
 kernel_params:
 # Shared memory and semaphore /etc/sysctl.d/98-oracle.conf or /etc/sysctl.conf
@@ -25,7 +26,8 @@ kernel_params:
 - { name: kernel.sem, value: 250 32000 100 128 }
 - { name: kernel.shmmni, value: 4096 }
 - { name: kernel.shmall, value: 1073741824 }
-- { name: kernel.shmmax, value: 4398046511104 }
+# 80% of Memory
+- { name: kernel.shmmax, value: "{{ ansible_memtotal_mb * 0.8 * 1024 * 1024 }}" }
 - { name: kernel.panic_on_oops, value: 1 }
 - { name: net.core.rmem_default, value: 262144 }
 - { name: net.core.rmem_max, value: 4194304 }
@@ -44,5 +46,6 @@ soft_nproc: 2047
 hard_nproc: 16384
 soft_stack: 10240
 hard_stack: 32768
-soft_memlock: 1887437
-hard_memlock: 1887437
+# 90% of Total memory in KB 
+soft_memlock: "{{ ansible_memtotal_mb * 0.9 * 1024 }}" 
+hard_memlock: "{{ ansible_memtotal_mb * 0.8 * 1024 }}"

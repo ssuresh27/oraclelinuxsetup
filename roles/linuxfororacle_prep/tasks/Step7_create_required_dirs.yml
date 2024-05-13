@@ -20,7 +20,7 @@
     - "{{ oracle_home }}"
   tags:
     - dbcreate_crdirs
-  when: not fs_stats.stat.exists
+  # when: not fs_stats.stat.exists
 
 
 
