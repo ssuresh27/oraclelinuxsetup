@@ -1,13 +1,13 @@
+oracle_user: oracle
+oracle_user_uid: 500
+
 oracle_install_group: oradba
+oracle_install_group_uid: 503
 oracle_groups:
   - oradba
   # - oinstall
-  # - oper
-  # - asmdba
-  # - asmdba
 
 # root_user: root
-oracle_user: oracle
 # grid_user: grid
 
 # oraclepasswd: oracle
@@ -15,7 +15,8 @@ oracle_user: oracle
 
 # root_dir: /u02
 # stage_dir: /u02/stage
-# oracle_base: /u02/app
+oracle_base: /orabin/oracle
+oracle_home: /orabin/oracle/product/19.0.0
 
 
 kernel_params:
