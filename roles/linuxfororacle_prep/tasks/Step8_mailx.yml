@@ -1,0 +1,37 @@
+---
+# --------------------------------------------------------
+#  Configure Postfix 
+# https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/deploying_different_types_of_servers/assembly_mail-transport-agent_deploying-different-types-of-servers
+# --------------------------------------------------------
+
+#Remove sendmail
+- name: remove sendmail package
+  ansible.builtin.dnf:
+    name: sendmail
+    state: absent
+
+# #Install postfix
+# - name: install postfix package
+#   ansible.builtin.dnf:
+#     name: postfix
+#     state: absent
+
+
+#Update /etc/postfix/main.cf
+
+- name: Update the /etc/postfix/main.cf file
+  lineinfile:
+    path: "/etc/postfix/main.cf"
+    regexp: '^inet_interfaces ='
+    line: inet_interfaces = all
+    state: present
+    backup: yes
+
+
+# Enable and start the postfix services
+
+- name: "Enable and (re)start service"
+  sansible.builtin.service:
+    name: postfix
+    enabled: yes
+    state: started

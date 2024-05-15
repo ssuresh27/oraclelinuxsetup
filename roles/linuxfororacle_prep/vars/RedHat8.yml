@@ -32,3 +32,4 @@ packages_list:
   #Additional
   - mutt
   - unzip
+  - postfix

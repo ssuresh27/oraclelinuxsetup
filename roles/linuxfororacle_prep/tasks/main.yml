@@ -18,6 +18,7 @@
     - import_tasks: Step5_oracle_users_shell_limit.yml
     - import_tasks: Step6_oracle_host_fileupdate.yml
     - import_tasks: Step7_create_required_dirs.yml
+    - import_tasks: Step8_mailx.yml
   #   - import_tasks: oracle_bash_profile.yml
 
 #Run the pre as root user

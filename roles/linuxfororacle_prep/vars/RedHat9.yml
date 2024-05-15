@@ -33,3 +33,4 @@ packages_list:
   #Additional
   - mutt
   - unzip
+  - s-nail #mailx
