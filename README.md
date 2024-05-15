@@ -55,11 +55,10 @@ oracle ALL=(ALL) NOPASSWD: ALL
 3. Set kernel parameters as per Oracle recommendation (shmmax 80 % of RAM)
 4. Install required operating system packages (Package list based on OS major version)
 5. Set up shell limit for oracle user
-7. Update /etc/hosts file entry with IP FQDN HOSTNAME
-8. Create required directories
-```
+6. Update /etc/hosts file entry with IP FQDN HOSTNAME
+7. Create required directories
+8. Setup MAILX using Postfix for RHEL8 & 9
 
-Tree Structure for this playbook is as below - 
 
 ### Setup:
  * OS: RHEL 8 and 9
@@ -76,19 +75,28 @@ roles                  | tasks
 linux_oracle.yml       |  **settings for installing Oracle Database**
 
 ```
+$ cat linux_oracle.yml
 - hosts: all
   vars:
     oracle_base: /orabin/oracle
-    oracle_home: /orabin/oracle/product/19.0.0/dbhome1
+    oracle_home: /orabin/oracle/product/19.0.0.0
     oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
- 
+
   roles:
     - linuxfororacle_prep
+```
+
+Inventory File
+
+```
+cat /home/oracle/dbadevn01.inv
+[dbahost]
+w2dbaodbdevn01
 
 ```
 ## Tree structure of this playbook
 ```
- [oracle@w2dbaodbdevn01 ~]$ tree oraclelinuxsetup/
+$ tree oraclelinuxsetup/
 oraclelinuxsetup/
 ├── facts
 │   ├── w2dbaodbdevn01.na.gilead.com
@@ -108,13 +116,13 @@ oraclelinuxsetup/
         │   ├── Step4_oracle_packages.yml
         │   ├── Step5_oracle_users_shell_limit.yml
         │   ├── Step6_oracle_host_fileupdate.yml
-        │   └── Step7_create_required_dirs.yml
+        │   ├── Step7_create_required_dirs.yml
+        │   └── Step8_mailx.yml
         ├── templates
         └── vars
             ├── main.yml
             ├── RedHat8.yml
             └── RedHat9.yml
-
 ```
 
 ## Summary commands: 
@@ -130,14 +138,8 @@ w2dbaodbdevn01
 ```
 Note: Modify variables based on you setup or your requirements. 
 
-Run the playbook role "cdb_pdb_create.yml"
-```
-ansible-playbook cdb_pdb_create.yml  
-
-ansible-playbook linux_oracle.yml --check 
-ansible-playbook linux_oracle.yml --check --diff
-
 ###### Sample Run:
+
 ```
 [oracle@w2dbaodbdevn01 oraclelinuxsetup]$ ansible-playbook -i /home/oracle/dbadevn01.inv linux_oracle.yml --check --diff
 
@@ -279,8 +281,7 @@ changed: [w2dbaodbdevn01] => (item=/orabin/oracle/product/19.0.0/dbhome1)
 
 PLAY RECAP *************************************************************************************************************************************************************************************************************
 w2dbaodbdevn01             : ok=15   changed=2    unreachable=0    failed=0    skipped=6    rescued=0    ignored=0
-
-```diff
+```
 - NOTE
-! Please do modify based on your own setup. This is purely based on my own lab setup. You can ask me any questions in relate to these playbooks - if you fork and modify to merge - let me know.
+```
 ```

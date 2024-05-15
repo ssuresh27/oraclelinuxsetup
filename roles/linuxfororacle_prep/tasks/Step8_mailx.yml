@@ -16,6 +16,13 @@
 #     name: postfix
 #     state: absent
 
+# Enable and start the postfix services
+
+- name: "Enable and (re)start service"
+  ansible.builtin.service:
+    name: postfix
+    enabled: true
+    # state: started
 
 #Update /etc/postfix/main.cf
 
@@ -27,11 +34,7 @@
     state: present
     backup: yes
 
-
-# Enable and start the postfix services
-
-- name: "Enable and (re)start service"
-  sansible.builtin.service:
+- name: restart services
+  ansible.builtin.service:
     name: postfix
-    enabled: yes
-    state: started
+    state: restarted
