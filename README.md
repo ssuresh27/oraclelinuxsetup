@@ -1,13 +1,27 @@
-# oraclelinuxsetup
+# Oracle DB installation on RHEL 8 and 9 servers
 README FILE: RHEL 8 /9 Linux setup for Oracle Software Installation
 
 Oracle readiness for Oracle Database software install 
  
-This Ansible Playbook can help you to to setup necessary configuration for installating Oracle Database software into the Linux environemnt.
-Please make sure you modify the necessary variables as per your own setup. Always play/test into lower setup multiple times before implementing into the 
-actual live system.
+This Ansible Playbook can help you to to setup necessary configuration for installating Oracle Database software into the Linux environemnt. Please make sure you modify the necessary variables as per your own setup. Always play/test into lower setup multiple times before implementing into the actual live system.
 
+## Pre-requisites: 
+
+The ansible play requires ssh connection between control node and target host. And, sudo access is required for oracle user. Following step can be performed to setup these pre-requisites.
+
+1. Generate the SSH key pair, accept the default file name and leave the passphrase empty:
 ```
+ssh-keygen -t rsa  (This is required for first time on ansible control/source node)
+```
+2. Copy the public key to target server(s), at prompt enter the target server login to copy the keys:
+```
+ssh-copy-id oracle@HOST_NAME
+```
+3. Verify the ssh connection working as expected, this step should give the data without asking password:
+```
+ssh oracle@HOST_NAME date
+```
+
 Summary Steps with this Ansible playbook are as below : 
 
 ** Script executed as oracle user with SUDO access **
