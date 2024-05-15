@@ -17,7 +17,7 @@ ssh-keygen -t rsa  (This is required for first time on ansible control/source no
 ```
 ssh-copy-id oracle@HOST_NAME
 ```
-3. Verify the ssh connection working as expected, this step should give the data without asking password:
+3. Verify the ssh connection working as expected, this step should give the date without asking password:
 ```
 ssh oracle@HOST_NAME date
 ```
