@@ -136,6 +136,17 @@ CONFIG_FILE() = None
 [dbahost]
 w2dbaodbdevn01
 ```
+*  --check will run the play without acutally executing
+*  --diff will report difference between current and future state after ansible play
+```
+$ansible-playbook -i /home/oracle/dbadevn01.inv linux_oracle.yml --check 
+$ansible-playbook -i /home/oracle/dbadevn01.inv linux_oracle.yml --check  --diff
+```
+ ### To run the play book
+
+```
+$ansible-playbook -i /home/oracle/dbadevn01.inv linux_oracle.yml -v
+```
 Note: Modify variables based on you setup or your requirements. 
 
 ###### Sample Run:
