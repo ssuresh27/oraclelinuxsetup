@@ -1,10 +1,10 @@
-oracle_user: oracle
-oracle_user_uid: 500
+# oracle_user: oracle
+# oracle_user_uid: 500
 
-oracle_install_group: oradba
-oracle_install_group_uid: 503
-oracle_groups:
-  - oradba
+# oracle_install_group: oradba
+# oracle_install_group_uid: 503
+# oracle_groups:
+#   - oradba
   # - oinstall
 
 # root_user: root
