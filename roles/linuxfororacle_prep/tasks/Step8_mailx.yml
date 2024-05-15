@@ -33,8 +33,4 @@
     line: inet_interfaces = all
     state: present
     backup: yes
-
-- name: restart services
-  ansible.builtin.service:
-    name: postfix
-    state: restarted
+  notify: restart postfix

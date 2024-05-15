@@ -21,6 +21,7 @@
     - import_tasks: Step8_mailx.yml
   #   - import_tasks: oracle_bash_profile.yml
 
+
 #Run the pre as root user
   become: true
   become_exe: "sudo su - "

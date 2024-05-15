@@ -1,9 +1,11 @@
 - hosts: all
   vars:
-    oracle_base: /orabin/oracle
-    oracle_home: /orabin/oracle/product/19.0.0.1
-    oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
- 
+    # Enable add values to be below to
+    # overwite the default value roles/linuxoracle_prep/defaults/main.yml
+    # oracle_base: /orabin/oracle 
+    # oracle_home: /orabin/oracle/product/19.0.0
+    # oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
+
   roles:
     # - sudo #Skipped during check  mode
     - linuxfororacle_prep
