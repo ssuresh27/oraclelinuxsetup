@@ -1,11 +1,11 @@
 # Oracle DB installation on RHEL 8 and 9 servers
 README FILE: RHEL 8 /9 Linux setup for Oracle Software Installation
 
-Oracle readiness for Oracle Database software install 
+##### Oracle readiness for Oracle Database software install 
  
 This Ansible Playbook can help you to to setup necessary configuration for installating Oracle Database software into the Linux environemnt. Please make sure you modify the necessary variables as per your own setup. Always play/test into lower setup multiple times before implementing into the actual live system.
 
-## Pre-requisites: 
+###### Pre-requisites: 
 
 The ansible play requires ssh connection between control node and target host. And, sudo access is required for oracle user. Following step can be performed to setup these pre-requisites.
 
@@ -21,8 +21,31 @@ ssh-copy-id oracle@HOST_NAME
 ```
 ssh oracle@HOST_NAME date
 ```
+4. Provide sudo command access to oracle user in /etc/sudoers. As root user
+```
+visudo or vi /etc/sudoers
+oracle ALL=NOPASSWD: sudo
+```
+5. Add oracle user into wheel group and grant NOPASSWORD access to wheel group. Save and close /etc/sudoers
+```
+## Same thing without a password
+%wheel ALL=(ALL) NOPASSWD: ALL
+```
+6. Add oracle user into wheel group
+```
+usermod --append -G wheel oracle
+````
+Or add below in /etc/sudoers to provide direct access to oracle user
+```
+oracle ALL=(ALL) NOPASSWD: ALL
+```
 
-Summary Steps with this Ansible playbook are as below : 
+###### Referrence on setting SUDO access
+[RHEL Note](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_basic_system_settings/managing-sudo-access_configuring-basic-system-settings)
+[Oracle Note](https://docs.oracle.com/en/operating-systems/oracle-linux/8/userauth/userauth-GrantingsudoAccesstoUsers.html#topic_k3k_qkl_jvb)
+
+
+# Summary Steps with this Ansible playbook are as below : 
 
 ** Script executed as oracle user with SUDO access **
 
@@ -60,7 +83,6 @@ linux_oracle.yml       |  **settings for installing Oracle Database**
     oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
  
   roles:
-    # - sudo #Skipped during check  mode
     - linuxfororacle_prep
 
 ```
@@ -115,7 +137,7 @@ ansible-playbook cdb_pdb_create.yml
 ansible-playbook linux_oracle.yml --check 
 ansible-playbook linux_oracle.yml --check --diff
 
-Sample Run:
+###### Sample Run:
 ```
 [oracle@w2dbaodbdevn01 oraclelinuxsetup]$ ansible-playbook -i /home/oracle/dbadevn01.inv linux_oracle.yml --check --diff
 
