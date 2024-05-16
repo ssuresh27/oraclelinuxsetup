@@ -3,13 +3,13 @@
     msg:
       - 'Oracle Database Software 19c Installation started for Single Instance at {{ansible_date_time.iso8601}}:'
 
-# - name: Ensure free space on disk is more than 20 GB
-#   assert:
-#     that: item.size_available > 21474836480
-#     msg: "warning: disk space is low"
-#   when: item.mount == '/orabin'
-#   with_items: "{{ ansible_facts.mounts }}"
-#   no_log: true
+- name: Ensure free space on disk is more than 20 GB
+  assert:
+    that: item.size_available > 21474836480
+    msg: "warning: disk space is low"
+  when: item.mount == '/orabin'
+  with_items: "{{ ansible_facts.mounts }}"
+  no_log: true
 
 - debug:
     msg: "export CV_ASSUME_DISTID={{ ASSUME_VARS }}"
