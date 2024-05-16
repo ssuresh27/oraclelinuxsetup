@@ -6,5 +6,7 @@
     mode: 0750
     group: "{{ oracle_install_group }}"
     owner:  "{{ oracle_user }}"
+  #This will be ignored during check mode
+  when: not ansible_check_mode
   tags:
    - db19c_unpackdbsoftware
