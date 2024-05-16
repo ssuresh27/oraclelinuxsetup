@@ -1,0 +1,80 @@
+
+- name: Ensure free space on disk is more than 20 GB
+  assert:
+    that: item.size_available > 21474836480
+    msg: "warning: disk space is low"
+  when: item.mount == '/orabin'
+  with_items: "{{ ansible_facts.mounts }}"
+  no_log: true
+
+- debug:
+    msg: "export CV_ASSUME_DISTID={{ ASSUME_VARS }}"
+
+- debug:
+    msg: "checking resource limits"
+
+- name: check file descriptor soft limit
+  shell:
+    cmd: ulimit -Sn
+  register: limits
+
+- name: ---
+  fail:
+    msg: "warning: file descriptor soft limit is {{ limits.stdout }}"
+  ignore_errors: true
+  when: limits.stdout | int < 1024
+
+- name: check file descriptor hard limit
+  shell:
+    cmd: ulimit -Hn
+  register: limits
+
+- name: ---
+  fail:
+    msg: "warning: file descriptor hard limit is {{ limits.stdout }}"
+  ignore_errors: true
+  when: limits.stdout | int < 65536
+
+- name: check available processes soft limit
+  shell:
+    cmd: ulimit -Su
+  register: limits
+
+- name: ---
+  fail:
+    msg: "warning: available processes soft limit is {{ limits.stdout }}"
+  ignore_errors: true
+  when: limits.stdout | int < 2047
+
+- name: check available processes hard limit
+  shell:
+    cmd: ulimit -Hu
+  register: limits
+
+- name: ---
+  fail:
+    msg: "warning: available processes hard limit is {{ limits.stdout }}"
+  ignore_errors: true
+  when: limits.stdout | int < 16384
+
+- name: check stack segment soft limit
+  shell:
+    cmd: ulimit -Ss
+  register: limits
+
+- name: ---
+  fail:
+    msg: "warning: stack segment soft limit is {{ limits.stdout }}"
+  ignore_errors: true
+  when: limits.stdout | int < 10240 
+
+- name: check stack segment hard limit
+  shell:
+    cmd: ulimit -Hs
+  register: limits
+
+- name: ---
+  fail:
+    msg: "warning: stack segment hard limit is {{ limits.stdout }}"
+  ignore_errors: true
+  when: limits.stdout | int < 10240 or limits.stdout | int > 32768 

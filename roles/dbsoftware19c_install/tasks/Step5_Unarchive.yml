@@ -1,0 +1,10 @@
+- name: Unpack Oracle 19c Database Software to the target server
+  ansible.builtin.unarchive:
+    src: "{{ oracle_gold_image }}"
+    dest: "{{ oracle_home }}"
+    remote_src: true
+    mode: 0750
+    group: "{{ oracle_install_group }}"
+    owner:  "{{ oracle_user }}"
+  tags:
+   - db19c_unpackdbsoftware

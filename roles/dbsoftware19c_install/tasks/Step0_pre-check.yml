@@ -1,0 +1,60 @@
+---
+# ------------------------------------------------------------------
+#         Pre-req to perform the steps
+# ------------------------------------------------------------------
+# Enable the below if running only DB install
+# - name: Check if Directory already exists 
+#   ansible.builtin.stat:
+#     path: "{{ oracle_home }}"
+#   register: fs_stats
+
+# - name: Oracle Home status
+#   debug:
+#     msg: "{{ oracle_home }} {{fs_stats}}"
+
+# - name: ORACLE_HOME Directry already exists
+#   ansible.builtin.fail:
+#     msg: "{{ oracle_home }} directroy already exists"
+#   when: fs_stats.stat.exists
+
+# - name: Check if oracle user is exists with group id
+#   ansible.builtin.user:
+#     name: "{{ oracle_user }}"
+#     uid: "{{ oracle_user_uid }}"
+#     group: "{{ oracle_install_group }}"
+#   check_mode: true
+#   register: user_stats
+
+# - name: Oracle OS user status
+#   ansible.builtin.fail:
+#     msg: "User {{ oracle_user }}  exists with uid {{ oracle_user_uid }}"
+#   when:  user_stats.uid != 500
+
+
+# - name: Check if oradba group  is exists with group id
+#   ansible.builtin.group:
+#     name: "{{ oracle_install_group }}"
+#     gid: "{{ oracle_install_group_uid }}"
+
+#   check_mode: true
+#   register: group_stats
+   
+# - name: oradba group status
+#   ansible.builtin.fail:
+#     msg: "Group {{ group_stats }}  exists with gid {{ oracle_install_group_uid }}"
+#   when:  group_stats.gid != 503
+
+# ENABLE Above steps, if running only DB installation without running OS pre-req ROLE
+
+- name: Check if oracle software is accessible
+  ansible.builtin.stat:
+    path: "{{ oracle_gold_image }}"
+    get_checksum: false
+  register: ora_bin
+
+- name: Error Oracle Home image/software is not available 
+  ansible.builtin.fail:
+    msg: "Oracle Binary {{ oracle_gold_image }}  not exists"
+  when: ora_bin.stat.exists == False
+
+  

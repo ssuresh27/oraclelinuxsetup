@@ -1,0 +1,20 @@
+---
+- name: Execute orainstroot.sh
+  become: true
+  become_exe: "sudo su - "
+  become_method: su
+  shell: "{{ oracle_inventory }}/orainstRoot.sh" 
+  ignore_errors: True
+  tags:
+   - db19c_exeorainstroot
+
+- name: Execute root.sh
+  become: true
+  become_exe: "sudo su - "
+  become_method: su
+  shell: "{{ oracle_home }}/root.sh -silent"
+  tags:
+   - db19c_exeroot
+
+- name: Remove stage directory 
+  file: path={{ stage_dir }} state=absent

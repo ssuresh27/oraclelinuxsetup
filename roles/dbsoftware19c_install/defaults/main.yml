@@ -1,0 +1,18 @@
+--- 
+# Default vars low priority can be overwitten by vars in playbook.yml
+# https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-directory-structure
+oracle_base: /orabin/oracle
+oracle_home: /orabin/oracle/product/19.0.0
+oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
+oracle_inventory: /orabin/oraInventory
+
+oracle_user: oracle
+oracle_user_uid: 500
+
+oracle_install_group: oradba
+oracle_install_group_uid: 503
+oracle_groups:
+  - oradba
+
+ASSUME_VARS: "{{ ansible_distribution_major_version |int - 1 |int }}"

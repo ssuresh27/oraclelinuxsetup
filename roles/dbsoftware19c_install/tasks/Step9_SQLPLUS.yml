@@ -1,0 +1,10 @@
+---
+- name: Get RDBMS Software Version
+  shell: |
+       export ORACLE_HOME={{ oracle_home }}
+       {{ oracle_home }}/bin/sqlplus -version
+  register: sqlversion
+
+- name: "Output from Post Database Software Installation Check"
+  debug:
+    var: sqlversion.stdout_lines|map('trim')|list

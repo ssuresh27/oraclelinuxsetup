@@ -62,7 +62,7 @@ oracle ALL=(ALL) NOPASSWD: ALL
 
 ### Setup:
  * OS: RHEL 8 and 9
- * Ansible: ansible 2.7.6
+ * Ansible: ansible 2.16.5
  * Database Version: Oracle 19 Linux 64bit
 
 ## Master Playbook:

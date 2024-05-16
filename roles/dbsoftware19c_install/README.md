@@ -2,32 +2,30 @@
 
 Note: Please modify all necessary configuration files based on your own environment.
 
-This article describes the installation of Oracle Database 19c 64-bit on Oracle Linux 7 (OL7) 64-bit.
+This article describes the installation of Oracle Database 19c 64-bit on RHEL 8 and 9 64-bit.
 
 Oracle Installation Prerequisites: Database Installation Guide for Linux 
 (https://docs.oracle.com/en/database/oracle/oracle-database/19/ladbi/index.html)
 
 **Setup:**
- * OS: OEL 7.5 
- * Ansible: ansible 2.7.6
- * Database Version: Oracle 19.3 Linux64
+ * OS: REHL 8 and 9
+ * Ansible: ansible 2.16.5
+ * Database Version: Oracle 19.22 Linux64 (19.22 is minimum required version for RHEL 9)
 
 Oracle RDBMS Software:
-> Download the Oracle software from OTN or MOS depending on your support status. 
-> Oracle binaries are staged from the "edelivery: Oracle Database 19c Software (64-bit)".
-> They have to be manually downloaded and made available for this article to apply. 
-
+> The software is staged in shared NFS location when this can be accessed from target server(s).
 
 - Install Oracle Database Software
 Oracle DBA - Automation with Ansible (Install Oracle 19c Database Software)
 
 ### Summary Steps:  
- * 1  :Stage Oracle 19c RDBMS software from edelivery.oracle.com. 
- * 2  :Unpack Oracle 19c RDBMS Software
- * 3  :Install Oracle 19c RDBMS Software
- * 4  :Execute oraInstroot.sh script
- * 5  :Execute root.sh script
- * 6  :Validation - Connect to SQLPLUS binary. 
+ * 1  Verify the shell limit 
+ * 2  Check the software location has minimum of 20G free space
+ * 3  Unpack Oracle 19c RDBMS Software
+ * 4  Install Oracle 19c RDBMS Software
+ * 5  Execute oraInstroot.sh script [Uses assume CV_ASSUME_DISTID per Oracle recommendation]
+ * 6  Execute root.sh script
+ * 7  Validation - Connect to SQLPLUS binary. 
 
 ### Summary commands: 
 

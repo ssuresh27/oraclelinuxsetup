@@ -1,0 +1,18 @@
+---
+# tasks file for sudo
+#------------------------------------
+#  Check the SUDO access of user
+#------------------------------------
+    - name: Check SUDO access
+      become: true
+      become_exe: "sudo su - "
+      become_method: su
+      command: id -u
+      register: id_output
+
+    - assert:
+        that: id_output.stdout == '0'
+        fail_msg: "User don't have SUDO access, check /etc/sudoers file {{ id_output.stdout }}"
+        success_msg: "User has SUDO access"
+      #This will be ignored during check mode
+      when: not ansible_check_mode

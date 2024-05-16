@@ -1,0 +1,6 @@
+---
+- name: Install Oracle 19c Database Software
+  shell: "export CV_ASSUME_DISTID={{ ASSUME_VARS }}; {{ oracle_home }}/runInstaller -silent -responseFile {{ stage_dir }}/{{ oradbsoft_rsp }}.rsp -noconfig -ignorePrereqFailure"  
+  ignore_errors: True
+  tags:
+   - dbsoft19c_install
