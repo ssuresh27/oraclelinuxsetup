@@ -33,3 +33,5 @@ packages_list:
   - mutt
   - unzip
   - postfix
+
+# ASSUME_VARS: 7

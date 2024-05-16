@@ -35,3 +35,5 @@ packages_list:
   - unzip
   - postfix
   - s-nail #mailx
+
+# ASSUME_VARS: 8

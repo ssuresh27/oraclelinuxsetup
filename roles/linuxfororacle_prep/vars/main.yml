@@ -48,4 +48,4 @@ soft_stack: 10240
 hard_stack: 32768
 # 90% of Total memory in KB 
 soft_memlock: "{{ (ansible_memtotal_mb * 0.9 * 1024) | int }}" 
-hard_memlock: "{{ (ansible_memtotal_mb * 0.8 * 1024) | int }}"
+hard_memlock: "{{ (ansible_memtotal_mb * 0.9 * 1024) | int }}"

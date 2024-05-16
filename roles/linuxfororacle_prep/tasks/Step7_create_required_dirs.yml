@@ -2,11 +2,14 @@
 # ----------------------------------------------------
 #        Create required directories
 # ----------------------------------------------------
-- name: Check if Directory already exists 
+- name: Create Oracle Inventory Directory
+  ansible.builtin.stat:
+    path: "{{ oracle_inventory }}"
+
+  
+- name: Create Oracle Base Directory
   ansible.builtin.stat:
     path: "{{ oracle_base }}"
-  register: fs_stats
-
 
 - name: create required directories
   file:
@@ -21,6 +24,11 @@
   tags:
     - dbcreate_crdirs
   # when: not fs_stats.stat.exists
+
+
+# - name: Display assume vars 
+#   ansible.builtin.debug:
+#     msg: "{{ ASSUME_VARS }}"
 
 
 

@@ -1,7 +1,6 @@
-- hosts: all
+- hosts: localhost
   vars:
-    # Enable add values to be below to
-    # overwite the default value roles/linuxoracle_prep/defaults/main.yml
+    # Enable/add below values overwite the default value roles/linuxoracle_prep/defaults/main.yml
     # oracle_base: /orabin/oracle 
     # oracle_home: /orabin/oracle/product/19.0.0
     # oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
@@ -9,6 +8,5 @@
     # oracle_install_group: oradba
 
   roles:
-    # - sudo #Skipped during check  mode
     - linuxfororacle_prep
-
+    - dbsoftware19c_install
