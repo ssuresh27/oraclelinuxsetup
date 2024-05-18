@@ -1,0 +1,33 @@
+---
+- name: Backup existing tnsnames.ora and listener.ora files (backup files)
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ item }}.{{ansible_date_time.iso8601}}"
+  ignore_errors: True
+  with_items:
+    - "{{ tns_admin }}/tnsnames.ora"
+    - "{{ tns_admin }}/listener.ora"
+
+- name: Backup existing tnsnames.ora and listener.ora files (delete files)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  ignore_errors: True
+  with_items:
+    - "{{ tns_admin }}/tnsnames.ora"
+    - "{{ tns_admin }}/listener.ora"
+
+- name: Create_DB | create required directories
+  file:
+    path="{{ item }}"
+    state=directory
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0755
+  with_items:
+    - "{{ stage_dir }}"
+    - "{{ data_dir }}"
+    - "{{ arch_dir }}"
+    - "{{ backup_dir }}"
+  tags:
+    - dbcreate_crdirs

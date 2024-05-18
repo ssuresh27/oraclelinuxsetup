@@ -1,0 +1,29 @@
+---
+
+
+- name: Create_DB | Copy required script to  database server
+  template:
+    src=roles/03_Gilead_create_db_19c/templates/{{ item }}.sh.j2
+    dest={{ stage_dir }}/{{ item }}.sh
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0775
+  with_items:
+    - lsnr_update
+    - tns_update
+  register: tns_update_shell
+  tags:
+    - tns_update_shell
+
+
+- name: Copy DB templates to server
+  template:
+    src=roles/03_Gilead_create_db_19c/templates/{{ item }}.dbt.j2
+    dest="{{ oracle_home }}/assistants/dbca/templates/{{ item }}.dbt"
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0775
+    remote_src=no
+  with_items:
+    - Gilead_Minimum_19.0.0.0
+    - Gilead_Oracle_Text_19.0.0.0

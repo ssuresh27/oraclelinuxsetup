@@ -1,0 +1,10 @@
+---
+- name: Create_DB | execute tns update for DB database
+  shell: '{{ stage_dir }}/tns_update.sh {{ db_name }} {{ ansible_fqdn }} {{ db_port }} {{ db_name }} {{ tns_admin }}'
+  args:
+    executable: /bin/bash
+  register: tnsupdate
+
+- name: Create_DB | TNS Update status
+  ansible.builtin.debug:
+    msg: "{{ tnsupdate.stdout }}"

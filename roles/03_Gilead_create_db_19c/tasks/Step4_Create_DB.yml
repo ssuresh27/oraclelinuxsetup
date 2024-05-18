@@ -1,0 +1,22 @@
+---
+- name: Create_DB | create silent database install file
+  template:
+    src=roles/03_Gilead_create_db_19c/templates/dbca.rsp.{{ oracle_dbversion }}.j2
+    dest='{{ stage_dir }}/silent_19cdb_config.rsp'
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0755
+  register: silent_install_file_created
+  tags:
+    - dbcreate_dbcfg
+
+
+- name: Create_DB | Create a Non-CDB Database
+  action: shell export ORACLE_HOME={{ oracle_home }}; {{ oracle_home }}/bin/dbca -silent -createDatabase -responseFile {{ silent_database19c_config_file }}
+  register: dbcreate_createdb
+  tags:
+    - dbcreate_createdb
+
+- name: Create_DB | Create DB status
+  ansible.builtin.debug:
+    msg: "{{ dbcreate_createdb }}"

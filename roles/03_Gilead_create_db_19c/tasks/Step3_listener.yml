@@ -1,0 +1,33 @@
+---
+
+- name: Create_DB | create silent listener config file
+  template:
+    src=roles/03_Gilead_create_db_19c/templates/listener.rsp.{{ oracle_dbversion }}.j2
+    dest={{ stage_dir }}/silent-lsnr19c-config.rsp
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0775
+  register: listener_rspfg_file
+  tags:
+    - dbcreate_lsnrcfg
+
+- name: Create_DB | Configuring listener
+  action: shell export ORACLE_HOME={{ oracle_home }}; $ORACLE_HOME/bin/netca -silent -responseFile {{ silent_listener_config_file }}
+  ignore_errors: True
+  register: dbcreate_createlsnr
+  tags:
+    - dbcreate_createlsnr
+
+- name: Create_DB | Create Listener status
+  ansible.builtin.debug:
+    msg: "{{ dbcreate_createlsnr.stdout }}"
+
+- name: Create_DB | Update listener.roa for DB database
+  shell: '{{ stage_dir }}/lsnr_update.sh {{ db_name }} {{ oracle_home }} {{ tns_admin }}'
+  args:
+    executable: /bin/bash
+  register: lsnrupdate
+
+- name: Create_DB | LISTENER Update status
+  ansible.builtin.debug:
+    msg: "{{ lsnrupdate.stdout }}"

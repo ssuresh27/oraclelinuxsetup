@@ -1,0 +1,40 @@
+#!/bin/bash
+export ORACLE_HOME={{oracle_home}}
+export TNSNAMES_FILE=listener.ora
+export DB_NAME=$1
+export OH=$2
+export TNS_ADMIN_DIR=$3
+
+if [ -z $1 ] || [ -z $2 ] || [ -z $3 ]   ; then
+
+  echo "Missing one or more required parameters: [DB_NAME] [ORACLE_HOME] [TNS_ADMIN_DIR]"
+  exit;
+
+fi
+
+chk_entry=`cat $TNS_ADMIN_DIR/$TNSNAMES_FILE | grep "$DB_NAME =" | wc -l`
+
+if [ -n "$chk_entry" ] && [ "$chk_entry" = 0 ]; then
+
+  echo "Creating the required entry..."
+  echo ""
+
+echo "
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (GLOBAL_DBNAME = $1)
+      (ORACLE_HOME = $2 )
+      (SID_NAME = $1))
+   )
+" >> $TNS_ADMIN_DIR/$TNSNAMES_FILE
+
+   elif [ "$chk_entry" != 0 ]; then
+
+   echo ""
+  echo "This entry already exists: [$DB_NAME]."
+  echo "Nothing to do!"
+  echo ""
+   exit;
+  
+fi 

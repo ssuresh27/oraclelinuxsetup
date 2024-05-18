@@ -1,7 +1,7 @@
 # oracle_install_group:            "oinstall"
 # mount_directory:                 "/"
 # root_directory:                  "/u01"
-stage_dir:                       "/home/oracle/stage"
+# stage_dir:                       "/home/oracle/stage"
 # scripts_directory:               "{{ root_directory }}/app/scripts"
 # oracle_base:                     /u01/app/oracle
 # oracle_home:                     /u01/app/oracle/product/19.3.0/db100

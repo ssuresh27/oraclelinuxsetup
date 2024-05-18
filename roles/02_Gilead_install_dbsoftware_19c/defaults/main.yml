@@ -1,0 +1,57 @@
+--- 
+# Default vars low priority can be overwitten by vars in playbook.yml
+# https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-directory-structure
+
+#Directories
+oracle_base: /orabin/oracle
+oracle_home: /orabin/oracle/product/19.0.0
+oracle_inventory: /orabin/oraInventory
+stage_dir: /home/oracle/stage
+data_dir: "/oradata/{{ db_name }}"
+arch_dir: "/oradata/{{ db_name }}/arch"
+backup_dir: "/orabkup/{{ db_name }}"
+tns_admin: "{{ oracle_home }}/network/admin"
+
+#DB sepcification
+db_name: ORCL
+db_port: 1521
+oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
+
+#Character sets
+#default #enable the below and provide custom value if requried
+#characterSet=AL32UTF8
+#nationalCharacterSet=AL16UTF16
+
+#Block_size
+#default #enable the below and provide custom value if requried
+#block_size=8192
+
+# DB SGA 50%  & PGA 10% in GB
+DB_SGA: "{{ (ansible_memtotal_mb  * 0.50 / 1024 ) |round | int }}"
+DB_PGA: "{{ (ansible_memtotal_mb  * 0.10 / 1024 ) |round | int }}"
+
+# DB templates
+template_name: Gilead_Minimum_19.0.0.0.dbt
+#accepted values
+#General_Purpose.dbc #oracle provided
+#Data_Warehouse.dbc #Oracle provided
+#Gilead_Minimum_19.0.0.0.dbt #with default components
+#Gilead_Oracle_Text_19.0.0.0.dbt # Includes Oracle text
+
+
+# DB response file 
+silent_database19c_config_file: "{{ stage_dir }}/silent_19db_config.rsp"
+silent_listener_config_file: "{{ stage_dir }}/silent-lsnr19c-config.rsp"
+
+# OS user properties
+oracle_user: oracle
+oracle_user_uid: 500
+oracle_install_group: oradba
+oracle_install_group_uid: 503
+oracle_groups:
+  - oradba
+
+# play book variables
+oracle_dbversion: 19.0.0.0.0
+ASSUME_VARS: "{{ ansible_distribution_major_version |int - 1 |int }}"

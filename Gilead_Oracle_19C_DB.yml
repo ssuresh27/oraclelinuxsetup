@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: all
   vars:
     # Enable/add below values overwite the default value roles/linuxoracle_prep/defaults/main.yml
     # oracle_base: /orabin/oracle 
@@ -6,7 +6,10 @@
     # oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
     # oracle_user: oracle
     # oracle_install_group: oradba
+    db_port: 1526
+    lsnr_name: SS
 
   roles:
-    - linuxfororacle_prep
-    - dbsoftware19c_install
+    # - 01_Gilead_OS_prereq_19c
+    # - 02_Gilead_install_dbsoftware_19c
+    - 03_Gilead_create_db_19c

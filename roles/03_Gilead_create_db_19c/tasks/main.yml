@@ -1,0 +1,54 @@
+---
+- name: display Pre install message
+  debug:
+    msg:
+      - 'Create Single Instance at {{ansible_date_time.iso8601}}:'
+
+- name: Check if database is already created
+  shell:  grep ^{{ db_name }}:{{ oracle_home }} /etc/oratab |wc -l;
+  tags:
+  - dbexistence
+  register: dbexistence
+
+# - name: DB status
+#   debug:
+#     msg: "{{ dbexistence }}"
+
+- name: DB already exists
+  fail:
+    msg: "DB {{ db_name }} -> {{ oracle_home }} already exists in /etc/oratab"
+  when: dbexistence.stdout | int > 0
+
+- name: Check if database is already created
+  shell:  ps -ef|grep {{ db_name }}|grep -v grep |wc -l;
+  tags:
+  - dbexistence
+  register: dbexistence
+
+# - name: DB status
+#   debug:
+#     msg: "{{ dbexistence }}"
+
+- name: DB already exists
+  fail:
+    msg: "pmon {{ db_name }} is already running"
+  when: dbexistence.stdout | int > 0 
+ 
+- name: Preparation tasks for hosting Oracle database
+  block:
+    - import_tasks: Step0_Create_Directory.yml
+    - import_tasks: Step1_Copy_files.yml
+    - import_tasks: Step2_SQLPLUS.yml
+    - import_tasks: Step3_listener.yml
+    - import_tasks: Step4_Create_DB.yml
+    - import_tasks: Step5_tnsnames.yml
+    - import_tasks: Step6_bash_profile.yml
+    - import_tasks: Step7_validate_db.yml
+    
+
+- name: display post install message
+  debug:
+    msg:
+      - 'This Steps completed below task for Single Instance at {{ansible_date_time.iso8601}}:'
+
+
