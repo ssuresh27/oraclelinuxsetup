@@ -3,7 +3,7 @@
 
 - name: Create_DB | Copy required script to  database server
   template:
-    src=roles/03_Gilead_create_db_19c/templates/{{ item }}.sh.j2
+    src={{ role_path }}/templates/{{ item }}.sh.j2
     dest={{ stage_dir }}/{{ item }}.sh
     owner="{{ oracle_user }}"
     group="{{ oracle_install_group }}"
@@ -18,7 +18,7 @@
 
 - name: Copy DB templates to server
   template:
-    src=roles/03_Gilead_create_db_19c/templates/{{ item }}.dbt.j2
+    src={{ role_path }}/templates/{{ item }}.dbt.j2
     dest="{{ oracle_home }}/assistants/dbca/templates/{{ item }}.dbt"
     owner="{{ oracle_user }}"
     group="{{ oracle_install_group }}"
