@@ -220,8 +220,12 @@ nodelist=
 # Default value : None
 # Mandatory     : Yes
 #-----------------------------------------------------------------------------
-templateName={{template_name}}
-
+#templateName={{template_name}}
+{% if template_name is defined %}
+templateName={{ template_name }}
+{% else %}
+templateName=Gilead_Minimum_19.0.0.0.dbt
+{% endif %}
 #-----------------------------------------------------------------------------
 # Name          : sysPassword
 # Datatype      : String
@@ -611,4 +615,4 @@ automaticMemoryManagement=
 # Default value : 
 # Mandatory     : NO
 #-----------------------------------------------------------------------------
-totalMemory={{ DB_SGA * 1024 }}
+totalMemory=

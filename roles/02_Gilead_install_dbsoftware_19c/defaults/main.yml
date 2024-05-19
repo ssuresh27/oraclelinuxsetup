@@ -32,11 +32,11 @@ DB_SGA: "{{ (ansible_memtotal_mb  * 0.50 / 1024 ) |round | int }}"
 DB_PGA: "{{ (ansible_memtotal_mb  * 0.10 / 1024 ) |round | int }}"
 
 # DB templates
-template_name: Gilead_Minimum_19.0.0.0.dbt
+# template_name: Gilead_Minimum_19.0.0.0.dbt
 #accepted values
 #General_Purpose.dbc #oracle provided
 #Data_Warehouse.dbc #Oracle provided
-#Gilead_Minimum_19.0.0.0.dbt #with default components
+#Gilead_Minimum_19.0.0.0.dbt #with default components (default)
 #Gilead_Oracle_Text_19.0.0.0.dbt # Includes Oracle text
 
 

@@ -1,52 +1,74 @@
-# Oracle_CDBnPDB_19c
-# Create Oracle container database and pluggable database
+# Oracle_19C_Non-CDB
+## Create Oracle Non-Container database
 
-Note: Please modify all necessary configuration files based on your own environment.For Example, one can modify dbca reposity file to create CDB and PDB at the same time and no need to run PDB create role.
+Note: Please modify all necessary configuration files based on your own environment.
 
-This repository is for the Creating and configuring a  multitenant container database (CDB) includes tasks such as creating the CDB, and then Pluggable database (PDB) using Oracle Database 19c 64-bit on Oracle Linux.
+### Setup:
+ * OS: RHEL 8 and 9
+ * Ansible: ansible 2.16.5
+ * Database Version: Oracle RDBMS Software Version: 19.22 (RHEL 9 minimum required version is 19.22)
 
-Current Setup for this repository: 
-OS: OEL 7.5 
-Ansible: ansible 2.7.6
-Oracle RDBMS Software Version: 19.2 
 
-Prior Article for this to follow - 
+###  Summary Steps with this Ansible role as below: 
+ * 1  Verify the DB is already configured
+ * 2  Create and configure DB listener
+ * 3  Create NON-CDB database response file using input/default parameters in NOARCHIVELOG MODE
+ * 4  Create a NON-CDB in silent mode using response file
+ * 5  Update TNS & bash profile
 
-DevOps Series: Automate Oracle 19c RDBMS Installations with Ansible [GITHUB]
-> https://medium.com/oracledevs/devops-series-automate-oracle-19c-rdbms-installations-with-ansible-github-43cfdf344a4a
 
-### Major Steps for this playbook role:  
- * 1  :Create and configure silent listener config file
- * 2  :Create silent database install file 
- * 3  :Create a Container Database
- * 4  :Enable database archivelog
- * 5  :Create a Pluggable Database with local undo 
- * 6  :Open pluggable database in normal mode
- * 7  :Execute tns update for PDB database 
+#### Summary commands: 
 
-Summary commands: 
+1. Default parameters (below values are set if no sepcified in <custom_playbook>.yml):
 
-1. Clone this repository:
-git clone https://github.com/asiandevs/Oracle_CDBnPDB_19c
-   
-2. Define variables as per your setup or requirements [ Modify main.yml file under vars directory ]
+###### DB sepcification
+db_name: ORCL
+db_port: 1521
+
+###### DB Character sets
+characterSet: AL32UTF8
+nationalCharacterSet: AL16UTF16
+
+#Block_size
+block_size: 8192
+
+###### DB SGA 50%  & PGA 10% in GB
+DB_SGA: "{{ (ansible_memtotal_mb  * 0.50 / 1024 ) |round | int }}"
+DB_PGA: "{{ (ansible_memtotal_mb  * 0.10 / 1024 ) |round | int }}"
+
+###### DB templates
+template_name: Gilead_Minimum_19.0.0.0
+
+template_name                   |   Provided        |   Description
+------------------------------- |   --------------- |  ---------------
+General_Purpose.dbc             |   Oracle          |   Includes all the default options
+Data_Warehouse.dbc              |   Oracle          |   For DW DB with custom block size
+Gilead_Minimum_19.0.0.0.dbt     |   Custom          |   With Minimum components (default)
+Gilead_Oracle_Text_19.0.0.0.dbt |   Custom          |   Mimimum + Oracle text
+
+###### DB Directory
+Name              |  Value
+------------------|-----------------------
+oracle_base       |  /orabin/oracle
+oracle_home       |  /orabin/oracle/product/19.0.0
+oracle_inventory  |  /orabin/oraInventory
+stage_dir         |  /home/oracle/stage
+data_dir          |  /oradata/{{ db_name }} (DB FILES)
+arch_dir          |  /oradata/{{ db_name }}/arch
+backup_dir        |  /orabkup/{{ db_name }}
+tns_admin         |  /{{oracle_home }}/network/admin
+
+
+2. Define variables as per your setup or requirements [ Modify <custom_playbook>.yml file]
 
 3. Configure an Ansible inventory file (example as below) 
 ```
-[root@oel75 ansible]# cat ansible.cfg | grep inventory
-inventory = ./inventory
-[root@oel75 ansible]# cat inventory
-[ora-x1]
-192.168.56.102
-[ora-x2]
-192.168.56.103
-[dbservers]
-192.168.56.102
-192.168.56.103
+[root@rhel9 ansible]# cat ansible.cfg | grep inventory
+
 ```
-4. Run the playbook role "cdb_pdb_create.yml"
+4. Run the playbook role "Oracle_19C_DB"
 ```
-ansible-playbook cdb_pdb_create.yml [ with options for testing, use --check / --diff / --step / -vvv ]
+ansible-playbook Oracle_19C_DB.yml [ with options for testing, use --check / --diff / --step / -vvv ]
 ```
 
 You can use:

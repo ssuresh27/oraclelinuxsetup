@@ -7,8 +7,6 @@
     # oracle_user: oracle
     # oracle_install_group: oradba
     db_port: 1526
-    lsnr_name: SS
-
   roles:
     # - 01_Gilead_OS_prereq_19c
     # - 02_Gilead_install_dbsoftware_19c
