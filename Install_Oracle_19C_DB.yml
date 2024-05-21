@@ -9,6 +9,6 @@
     # db_port: 1526
     db_name: ANSIBLE
   roles:
-    - 01_Gilead_OS_prereq_19C
-    - 02_Gilead_install_dbsoftware_19c
-    - 03_Gilead_create_db_19c
+    - 01_OS_prereq_19C
+    - 02_Install_dbsoftware_19C
+    - 03_Create_db_19C
