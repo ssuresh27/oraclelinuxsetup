@@ -1,0 +1,21 @@
+---
+
+#
+# RUN SQL Scripts
+#
+- name: Post DB | execute DB scripts
+  shell: export ORACLE_HOME={{ oracle_home }}; export ORACLE_SID={{ oracle_sid }}; export PATH=$PATH:$ORACLE_HOME/bin; echo "@{{ item }};" | {{ oracle_home }}/bin/sqlplus / as sysdba
+  register: sqlplus_dbvalidate
+  failed_when: "'ERROR' in sqlplus_dbvalidate.stdout or sqlplus_dbvalidate.rc != 0"
+  with_items:
+    - /oradba/scripts/Gilead_standards_creation.sql
+    - "{{ stage_dir }}/update_unique_name.sql"
+    - "{{ stage_dir }}/blockchange_tracking.sql"
+    - "{{ stage_dir }}/enable_dbarchivelogs.sql"
+    - "{{ stage_dir }}/db_shutdown.sql"
+
+
+- name: display DB validation output message
+  debug: msg="{{ item.0 |trim}}"
+  with_items: "{{ sqlplus_dbvalidate.results|map(attribute='stdout')|list }}"
+

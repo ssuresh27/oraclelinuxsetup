@@ -1,0 +1,10 @@
+---
+# Handlers file
+
+- name: restart db sevices
+  become: true
+  become_exe: "sudo su - "
+  become_method: su
+  ansible.builtin.service:
+    name: dbora
+    state: restarted

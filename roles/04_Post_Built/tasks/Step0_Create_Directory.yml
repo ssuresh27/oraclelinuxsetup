@@ -1,0 +1,14 @@
+---
+
+- name: Post_DB | create required directories
+  file:
+    path="{{ item }}"
+    state=directory
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0755
+  with_items:
+    - "{{ stage_dir }}"
+    - "{{ backup_dir }}"
+  tags:
+    - dbcreate_crdirs

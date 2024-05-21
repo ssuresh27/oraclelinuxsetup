@@ -1,0 +1,28 @@
+---
+- name: Create_DB | Copy required script to  database server
+  template:
+    src={{ role_path }}/templates/{{ item }}.j2
+    dest={{ stage_dir }}/{{ item }}
+    owner="{{ oracle_user }}"
+    group="{{ oracle_install_group }}"
+    mode=0775
+  with_items:
+    - cronjobs
+    - blockchange_tracking.sql
+    - update_unqiue_name.sql
+
+  register: copy_template
+  tags:
+    - copy_template
+
+- name: Post_DB | Copy script to server
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "{{ stage_dir }}/{{ item }}"
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_install_group }}"
+    mode: 0775
+    remote_src: no
+  with_items:
+    - enable_dbarchlogs.sql
+    - db_shutdown.sql

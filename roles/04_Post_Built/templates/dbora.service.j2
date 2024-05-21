@@ -1,0 +1,19 @@
+[Unit]
+Description=The Oracle Database Service
+After=network.target
+After=orabin.mount
+After=oradata.mount
+
+[Service]
+Type=forking
+RemainAfterExit=yes
+KillMode=none
+TimeoutStopSec=5min
+User={{ oracle_user }}
+Group={{ oracle_install_group }}
+ExecStart={{oracle_home}}/bin/dbstart {{oracle_home}} &
+ExecStop={{oracle_home}}/bin/dbshut {{oracle_home}}
+
+[Install]
+# Puts wants directive for the other units in the relationship
+WantedBy=default.target

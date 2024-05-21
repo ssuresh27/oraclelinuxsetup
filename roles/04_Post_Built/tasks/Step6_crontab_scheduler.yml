@@ -1,0 +1,10 @@
+---
+name: Post_DB | Update crontab
+  action: shell cronta -l "{{ stage_dir }}/crontab.{{ansible_date_time.iso8601}}" ; crontab -r ; crontab "{{ stage_dir }}/cronjobs"
+  register: update_crontab
+  tags:
+    - update_crontab
+
+- name: Post_DB | crontab status
+  ansible.builtin.debug:
+    msg: "{{ update_crontab }}"

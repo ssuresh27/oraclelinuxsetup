@@ -1,0 +1,12 @@
+###{{ db_name }}####
+#Daily RMAN Incremental Merge copy Database backup
+30 20 * * * /oradba/backup/rman_db_incremental_merge_copy.sh {{ db_name }} {{ backup_dir }}  > /tmp/rman_db_incremental_{{ db_name }}.log  2>&1
+
+#### Full export dump
+00 04 * * 6 /oradba/backup/expdp_db.sh {{ db_name }} > /tmp/expdp_db_{{ db_name }}.log  2>&1
+
+#Archive log backup for every 4 hours
+0 */4 * * * /oradba/backup/rman_archivelogs.sh {{ db_name }} {{ backup_dir }} > /tmp/RMAN_archivelog_{{ db_name }}.log 2>&1
+
+#Clean Orabin directory
+0 0 * * * /oradba/maint/jaz/cleanhouse01.sh -d 15 > /tmp/cleanhouse.log 2>&1

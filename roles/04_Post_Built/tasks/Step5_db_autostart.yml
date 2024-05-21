@@ -1,0 +1,27 @@
+- name: Post_DB | Modify oratab
+  lineinfile: dest='/etc/oratab' regexp='^{{ db_name }}:{{ oracle_home }}:N' line='{{ db_name }}:{{ oracle_home }}:Y' state=present
+  tags:
+    - updoratab
+
+# Copy auto startup script
+- name: Auto start DB
+  become: true
+  become_exe: "sudo su - "
+  become_method: su
+  template:
+    src={{ role_path }}/templates/{{ item }}.j2
+    dest=/usr/lib/systemd/system/dbora.service
+    mode=0775
+  with_items:
+    - dbora.service
+
+# Enable and start dbservice the postfix services
+- name: "Autostart and (re)start dbora service"
+  become: true
+  become_exe: "sudo su - "
+  become_method: su
+  ansible.builtin.service:
+    name: dbora
+    enabled: true
+    # state: started
+  notify: restart dbservice

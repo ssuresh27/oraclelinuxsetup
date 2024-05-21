@@ -1,0 +1,11 @@
+- name: Post_DB | setup necessary kernel parameters 
+  become: true
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: true
+  with_items: 
+    - { name: vm.hugetlb_shm_group, value: "{{ oracle_install_group_uid }}" }
+    - { name: vm.nr_hugepages, value: "{{ HUGE_PAGE }}" }
+

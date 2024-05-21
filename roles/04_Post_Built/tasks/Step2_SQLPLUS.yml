@@ -1,0 +1,8 @@
+---
+# - name: validate oracle database software is installed
+- stat: path="{{ oracle_home }}/bin/sqlplus"
+  register: sqlplus
+
+- debug:
+    fail: "oracle database software not exists in this {{oracle_home }}"
+  when: not sqlplus.stat.exists
