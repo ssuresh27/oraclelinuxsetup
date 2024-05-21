@@ -36,12 +36,12 @@
  
 - name: Preparation tasks for hosting Oracle database
   block:
-    # - import_tasks: Step0_Create_Directory.yml
-    # - import_tasks: Step1_Copy_files.yml
-    # - import_tasks: Step2_SQLPLUS.yml
-    # - import_tasks: Step3_listener.yml
-    # - import_tasks: Step4_Create_DB.yml
-    # - import_tasks: Step5_tnsnames.yml
+    - import_tasks: Step0_Create_Directory.yml
+    - import_tasks: Step1_Copy_files.yml
+    - import_tasks: Step2_SQLPLUS.yml
+    - import_tasks: Step3_listener.yml
+    - import_tasks: Step4_Create_DB.yml
+    - import_tasks: Step5_tnsnames.yml
     # - import_tasks: Step6_bash_profile.yml # Executed part of post built task
     - import_tasks: Step7_validate_db.yml
     
