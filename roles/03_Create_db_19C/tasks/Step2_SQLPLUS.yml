@@ -5,4 +5,6 @@
 
 - debug:
     fail: "oracle database software not exists in this {{oracle_home }}"
-  when: not sqlplus.stat.exists
+  when: 
+    - not ansible_check_mode
+    - not sqlplus.stat.exists

@@ -12,3 +12,8 @@ This Ansible Playbook can help you to to setup necessary configuration for insta
 [Oracle 19C Binary Installation](roles/02_Install_dbsoftware_19C/README.md)
 
 [Create Oracle 19C Non-CDB](roles/03_Create_db_19C/README.md)
+
+[Perform Post DB built tasks](roles/04_Post_DB_built/README.md)
+
+[playbook --check results](./playbookcheck.out)
+[plabook run results](./playbookout.txt)

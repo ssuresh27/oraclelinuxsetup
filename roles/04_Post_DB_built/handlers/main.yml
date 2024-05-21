@@ -1,7 +1,7 @@
 ---
 # Handlers file
 
-- name: restart db sevices
+- name: restart dbservice
   become: true
   become_exe: "sudo su - "
   become_method: su

@@ -2,13 +2,15 @@
   vars:
     # Enable/add below values overwite the default value roles/linuxoracle_prep/defaults/main.yml
     # oracle_base: /orabin/oracle 
-    # oracle_home: /orabin/oracle/product/19.0.0
+    # oracle_home: /orabin/oracle/product/19.0.0_new
     # oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
     # oracle_user: oracle
     # oracle_install_group: oradba
     # db_port: 1526
     db_name: ANSIBLE
+    db_uniquename: W2_ANSIBLE
   roles:
-    - 01_OS_prereq_19C
-    - 02_Install_dbsoftware_19C
+    # - 01_OS_prereq_19C
+    # - 02_Install_dbsoftware_19C
     - 03_Create_db_19C
+    - 04_Post_DB_built

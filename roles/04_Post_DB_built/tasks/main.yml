@@ -1,32 +1,36 @@
 ---
 - name: Check DB running status
-  shell:  ps -ef|grep {{ db_name }}|grep -v grep |wc -l;
+  shell:  ps -ef|grep ora_pmon_{{ db_name }}|grep -v grep |wc -l;
   tags:
   - dbexistence
   register: dbexistence
+  when: not ansible_check_mode
 
 # - name: DB status
 #   debug:
 #     msg: "{{ dbexistence }}"
 
+  # when: 
 - name: If DB not running stop the execution
   fail:
     msg: "pmon {{ db_name }} not running"
-  when: dbexistence.stdout | int == 0 
+  when: 
+    - not ansible_check_mode
+    - dbexistence.stdout | int == 0
  
 - name: Preparation tasks for hosting Oracle database
   block:
     - import_tasks: Step0_Create_Directory.yml
     - import_tasks: Step1_Copy_files.yml
     - import_tasks: Step2_SQLPLUS.yml
-    - import_tasks: Step3_listener.yml
-    - import_tasks: Step4_Create_DB.yml
-    - import_tasks: Step5_tnsnames.yml
-    - import_tasks: Step6_bash_profile.yml
-    - import_tasks: Step7_validate_db.yml
+    - import_tasks: Step3_Run-SQLSCRIPT.yml
+    - import_tasks: Step4_Setup_hugepage.yml
+    - import_tasks: Step5_db_autostart.yml
+    - import_tasks: Step6_crontab_scheduler.yml
+    - import_tasks: Step7_bash_profile.yml
     
 
-- name: display post install message
+- name: display post built task message
   debug:
     msg:
       - 'This Steps completed below task for Single Instance at {{ansible_date_time.iso8601}}:'

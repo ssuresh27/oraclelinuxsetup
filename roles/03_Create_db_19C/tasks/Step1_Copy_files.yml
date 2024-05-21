@@ -1,6 +1,5 @@
 ---
 
-
 - name: Create_DB | Copy required script to  database server
   template:
     src={{ role_path }}/templates/{{ item }}.sh.j2
@@ -27,3 +26,9 @@
   with_items:
     - Gilead_Minimum_19.0.0.0
     - Gilead_Oracle_Text_19.0.0.0
+
+- name: remote local copy
+  ansible.builtin.copy:
+    src: /oradba/maint/.avail
+    dest: /home/oracle/.avail
+    remote_src: yes

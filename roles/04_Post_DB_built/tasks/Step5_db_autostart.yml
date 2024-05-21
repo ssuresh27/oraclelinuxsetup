@@ -1,4 +1,7 @@
 - name: Post_DB | Modify oratab
+  become: true
+  become_exe: "sudo su - "
+  become_method: su
   lineinfile: dest='/etc/oratab' regexp='^{{ db_name }}:{{ oracle_home }}:N' line='{{ db_name }}:{{ oracle_home }}:Y' state=present
   tags:
     - updoratab
@@ -23,5 +26,4 @@
   ansible.builtin.service:
     name: dbora
     enabled: true
-    # state: started
-  notify: restart dbservice
+    state: restarted

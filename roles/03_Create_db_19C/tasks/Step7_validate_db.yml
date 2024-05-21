@@ -4,8 +4,10 @@
   register: sqlplus_dbvalidate
   failed_when: "'ERROR' in sqlplus_dbvalidate.stdout or sqlplus_dbvalidate.rc != 0"
   with_items:
-    - select sysdate||' -> ' ||host_name ||' -> ' ||name||' -> ' ||open_mode||' -> ' ||database_roleas DB_Output from v\$database,v\$instance,dual
+    - select sysdate||' -> ' ||host_name ||' -> ' ||name||' -> ' ||open_mode||' -> ' ||database_role as DB_Output from v\$database,v\$instance,dual
 
 - name: display DB validation output message
   debug: msg="{{ item.0 |trim}}"
   with_items: "{{ sqlplus_dbvalidate.results|map(attribute='stdout')|list }}"
+  when: 
+    - not ansible_check_mode

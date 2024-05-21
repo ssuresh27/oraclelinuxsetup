@@ -1,5 +1,5 @@
 ---
-- name: Create_DB | Copy required script to  database server
+- name: Post_DB | Copy required script to  database server
   template:
     src={{ role_path }}/templates/{{ item }}.j2
     dest={{ stage_dir }}/{{ item }}
@@ -9,8 +9,7 @@
   with_items:
     - cronjobs
     - blockchange_tracking.sql
-    - update_unqiue_name.sql
-
+    - update_unique_name.sql
   register: copy_template
   tags:
     - copy_template

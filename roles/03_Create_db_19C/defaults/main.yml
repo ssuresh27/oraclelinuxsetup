@@ -15,6 +15,7 @@ tns_admin: "{{ oracle_home }}/network/admin"
 
 #DB sepcification
 db_name: ORCL
+db_uniquename: "{{ ansible_hostname[:2]|upper }}_{{ db_name }}" #First two chars in upper case
 db_port: 1521
 oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
 
@@ -30,7 +31,7 @@ oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.z
 # DB SGA 50%  & PGA 10% in GB
 DB_SGA: "{{ (ansible_memtotal_mb  * 0.50 / 1024 ) |round | int }}"
 DB_PGA: "{{ (ansible_memtotal_mb  * 0.10 / 1024 ) |round | int }}"
-
+HUGE_PAGE: "{{ (DB_SGA|int * 1024 / 2 + 1) |int }}"
 # DB templates
 #template_name: Gilead_Minimum_19.0.0.0.dbt
 #accepted values

@@ -2,7 +2,10 @@
 # - name: validate oracle database software is installed
 - stat: path="{{ oracle_home }}/bin/sqlplus"
   register: sqlplus
+  when: not ansible_check_mode
 
 - debug:
     fail: "oracle database software not exists in this {{oracle_home }}"
-  when: not sqlplus.stat.exists
+  when: 
+    - not ansible_check_mode
+    - not sqlplus.stat.exists

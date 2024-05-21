@@ -1,0 +1,475 @@
+[oracle@w2dbaodbdevn01 oraclelinuxsetup]$ ansible-playbook -i /home/oracle/dbadevn01.inv Install_Oracle_19C_DB.yml --check -v
+No config file found; using defaults
+
+PLAY [all] **************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **************************************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01]
+
+TASK [01_OS_prereq_19C : Display pre installation of setting up Oracle Database Software requirements for RHEL 8 and later] *********************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": [
+        "This playbook is for setting setting up Oracle Database Software requirement 2024-05-21T19:06:22Z:"
+    ]
+}
+
+TASK [01_OS_prereq_19C : Check if Directory already exists] *************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "stat": {"exists": false}}
+
+TASK [01_OS_prereq_19C : Oracle Home status] ****************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": "/orabin/oracle/product/19.0.0 {'changed': False, 'stat': {'exists': False}, 'failed': False}"
+}
+
+TASK [01_OS_prereq_19C : ORACLE_HOME Directry already exists] ***********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "fs_stats.stat.exists", "skip_reason": "Conditional result was False"}
+
+TASK [01_OS_prereq_19C : Check if oracle user is exists with group id] **************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"append": false, "changed": false, "comment": "", "group": 503, "home": "/home/oracle", "move_home": false, "name": "oracle", "shell": "/bin/bash", "state": "present", "uid": 500}
+
+TASK [01_OS_prereq_19C : Oracle OS user status] *************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "user_stats.uid != 500", "skip_reason": "Conditional result was False"}
+
+TASK [01_OS_prereq_19C : Check if oradba group  is exists with group id] ************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "gid": 503, "name": "oradba", "state": "present", "system": false}
+
+TASK [01_OS_prereq_19C : oradba group status] ***************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "group_stats.gid != 503", "skip_reason": "Conditional result was False"}
+
+TASK [01_OS_prereq_19C : Check if oracle software is accessible] ********************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "stat": {"atime": 1716091966.077475, "attr_flags": "", "attributes": [], "block_size": 32768, "blocks": 12646744, "charset": "binary", "ctime": 1709161992.080876, "dev": 41, "device_type": 0, "executable": false, "exists": true, "gid": 503, "gr_name": "oradba", "inode": 1000838045, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "application/zip", "mode": "0640", "mtime": 1706563042.709977, "nlink": 1, "path": "/oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip", "pw_name": "oracle", "readable": true, "rgrp": true, "roth": false, "rusr": true, "size": 6449729332, "uid": 500, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": false, "xoth": false, "xusr": false}}
+
+TASK [01_OS_prereq_19C : Error Oracle Home image/software is not available] *********************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "ora_bin.stat.exists == False", "skip_reason": "Conditional result was False"}
+
+TASK [01_OS_prereq_19C : save all facts to host specific file] **********************************************************************************************************************************************************
+changed: [w2dbaodbdevn01 -> localhost] => {"changed": true}
+
+TASK [01_OS_prereq_19C : Check SUDO access] *****************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": ["id", "-u"], "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [01_OS_prereq_19C : assert] ****************************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "not ansible_check_mode", "skip_reason": "Conditional result was False"}
+
+TASK [01_OS_prereq_19C : setup necessary kernel parameters] *************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item={'name': 'fs.file-max', 'value': 6815744}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "fs.file-max", "value": 6815744}}
+ok: [w2dbaodbdevn01] => (item={'name': 'kernel.sem', 'value': '250 32000 100 128'}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "kernel.sem", "value": "250 32000 100 128"}}
+ok: [w2dbaodbdevn01] => (item={'name': 'kernel.shmmni', 'value': 4096}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "kernel.shmmni", "value": 4096}}
+ok: [w2dbaodbdevn01] => (item={'name': 'kernel.shmall', 'value': 1073741824}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "kernel.shmall", "value": 1073741824}}
+ok: [w2dbaodbdevn01] => (item={'name': 'kernel.shmmax', 'value': '6188276121'}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "kernel.shmmax", "value": "6188276121"}}
+ok: [w2dbaodbdevn01] => (item={'name': 'kernel.panic_on_oops', 'value': 1}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "kernel.panic_on_oops", "value": 1}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.core.rmem_default', 'value': 262144}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.core.rmem_default", "value": 262144}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.core.rmem_max', 'value': 4194304}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.core.rmem_max", "value": 4194304}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.core.wmem_default', 'value': 262144}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.core.wmem_default", "value": 262144}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.core.wmem_max', 'value': 1048576}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.core.wmem_max", "value": 1048576}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.ipv4.conf.all.rp_filter', 'value': 2}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.ipv4.conf.all.rp_filter", "value": 2}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.ipv4.conf.default.rp_filter', 'value': 2}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.ipv4.conf.default.rp_filter", "value": 2}}
+ok: [w2dbaodbdevn01] => (item={'name': 'fs.aio-max-nr', 'value': 1048576}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "fs.aio-max-nr", "value": 1048576}}
+ok: [w2dbaodbdevn01] => (item={'name': 'net.ipv4.ip_local_port_range', 'value': '9000 65500'}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "net.ipv4.ip_local_port_range", "value": "9000 65500"}}
+ok: [w2dbaodbdevn01] => (item={'name': 'vm.hugetlb_shm_group', 'value': 503}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "vm.hugetlb_shm_group", "value": 503}}
+
+TASK [01_OS_prereq_19C : setup necessary Packages] **********************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"ansible_facts": {"packages_list": ["bc", "binutils", "compat-openssl11", "elfutils-libelf", "fontconfig", "glibc", "glibc-devel", "ksh", "libaio", "libasan", "liblsan", "libX11", "libXau", "libXi", "libXrender", "libXtst", "libxcrypt-compat", "libgcc", "libibverbs", "libnsl", "librdmacm", "libstdc++", "libxcb", "libvirt-libs", "make", "policycoreutils", "policycoreutils-python-utils", "smartmontools", "sysstat", "mutt", "unzip", "postfix", "s-nail"]}, "ansible_included_var_files": ["/home/oracle/oraclelinuxsetup/roles/01_OS_prereq_19C/vars/RedHat9.yml"], "changed": false}
+
+TASK [01_OS_prereq_19C : install package] *******************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=bc) => {"ansible_loop_var": "item", "changed": false, "item": "bc", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=binutils) => {"ansible_loop_var": "item", "changed": false, "item": "binutils", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=compat-openssl11) => {"ansible_loop_var": "item", "changed": false, "item": "compat-openssl11", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=elfutils-libelf) => {"ansible_loop_var": "item", "changed": false, "item": "elfutils-libelf", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=fontconfig) => {"ansible_loop_var": "item", "changed": false, "item": "fontconfig", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=glibc) => {"ansible_loop_var": "item", "changed": false, "item": "glibc", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=glibc-devel) => {"ansible_loop_var": "item", "changed": false, "item": "glibc-devel", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=ksh) => {"ansible_loop_var": "item", "changed": false, "item": "ksh", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libaio) => {"ansible_loop_var": "item", "changed": false, "item": "libaio", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libasan) => {"ansible_loop_var": "item", "changed": false, "item": "libasan", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=liblsan) => {"ansible_loop_var": "item", "changed": false, "item": "liblsan", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libX11) => {"ansible_loop_var": "item", "changed": false, "item": "libX11", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libXau) => {"ansible_loop_var": "item", "changed": false, "item": "libXau", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libXi) => {"ansible_loop_var": "item", "changed": false, "item": "libXi", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libXrender) => {"ansible_loop_var": "item", "changed": false, "item": "libXrender", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libXtst) => {"ansible_loop_var": "item", "changed": false, "item": "libXtst", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libxcrypt-compat) => {"ansible_loop_var": "item", "changed": false, "item": "libxcrypt-compat", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libgcc) => {"ansible_loop_var": "item", "changed": false, "item": "libgcc", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libibverbs) => {"ansible_loop_var": "item", "changed": false, "item": "libibverbs", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libnsl) => {"ansible_loop_var": "item", "changed": false, "item": "libnsl", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=librdmacm) => {"ansible_loop_var": "item", "changed": false, "item": "librdmacm", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libstdc++) => {"ansible_loop_var": "item", "changed": false, "item": "libstdc++", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libxcb) => {"ansible_loop_var": "item", "changed": false, "item": "libxcb", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=libvirt-libs) => {"ansible_loop_var": "item", "changed": false, "item": "libvirt-libs", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=make) => {"ansible_loop_var": "item", "changed": false, "item": "make", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=policycoreutils) => {"ansible_loop_var": "item", "changed": false, "item": "policycoreutils", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=policycoreutils-python-utils) => {"ansible_loop_var": "item", "changed": false, "item": "policycoreutils-python-utils", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=smartmontools) => {"ansible_loop_var": "item", "changed": false, "item": "smartmontools", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=sysstat) => {"ansible_loop_var": "item", "changed": false, "item": "sysstat", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=mutt) => {"ansible_loop_var": "item", "changed": false, "item": "mutt", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=unzip) => {"ansible_loop_var": "item", "changed": false, "item": "unzip", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=postfix) => {"ansible_loop_var": "item", "changed": false, "item": "postfix", "msg": "Nothing to do", "rc": 0, "results": []}
+ok: [w2dbaodbdevn01] => (item=s-nail) => {"ansible_loop_var": "item", "changed": false, "item": "s-nail", "msg": "Nothing to do", "rc": 0, "results": []}
+
+TASK [01_OS_prereq_19C : Add oracle user limits] ************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item={'limit': 'soft', 'type': 'nofile', 'value': 4096}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "soft", "type": "nofile", "value": 4096}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'hard', 'type': 'nofile', 'value': 65536}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "hard", "type": "nofile", "value": 65536}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'soft', 'type': 'nproc', 'value': 2047}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "soft", "type": "nproc", "value": 2047}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'hard', 'type': 'nproc', 'value': 16384}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "hard", "type": "nproc", "value": 16384}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'soft', 'type': 'stack', 'value': 10240}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "soft", "type": "stack", "value": 10240}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'hard', 'type': 'stack', 'value': 32768}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "hard", "type": "stack", "value": 32768}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'soft', 'type': 'memlock', 'value': '6798643'}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "soft", "type": "memlock", "value": "6798643"}, "msg": ""}
+ok: [w2dbaodbdevn01] => (item={'limit': 'hard', 'type': 'memlock', 'value': '6798643'}) => {"ansible_loop_var": "item", "backup": "", "changed": false, "item": {"limit": "hard", "type": "memlock", "value": "6798643"}, "msg": ""}
+
+TASK [01_OS_prereq_19C : Update the /etc/hosts file with node name] *****************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"backup": "", "changed": false, "msg": ""}
+
+TASK [01_OS_prereq_19C : Create Oracle Inventory Directory] *************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "stat": {"atime": 1716317698.0379605, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 0, "charset": "binary", "ctime": 1716317698.0359604, "dev": 64775, "device_type": 0, "executable": true, "exists": true, "gid": 503, "gr_name": "oradba", "inode": 3392216, "isblk": false, "ischr": false, "isdir": true, "isfifo": false, "isgid": false, "islnk": false, "isreg": false, "issock": false, "isuid": false, "mimetype": "inode/directory", "mode": "0770", "mtime": 1716317698.0359604, "nlink": 5, "path": "/orabin/oraInventory", "pw_name": "oracle", "readable": true, "rgrp": true, "roth": false, "rusr": true, "size": 92, "uid": 500, "version": "3916317622", "wgrp": true, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": false, "xusr": true}}
+
+TASK [01_OS_prereq_19C : Create Oracle Base Directory] ******************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "stat": {"atime": 1716313196.550973, "attr_flags": "", "attributes": [], "block_size": 4096, "blocks": 0, "charset": "binary", "ctime": 1716308597.9031584, "dev": 64775, "device_type": 0, "executable": true, "exists": true, "gid": 503, "gr_name": "oradba", "inode": 131, "isblk": false, "ischr": false, "isdir": true, "isfifo": false, "isgid": false, "islnk": false, "isreg": false, "issock": false, "isuid": false, "mimetype": "inode/directory", "mode": "0750", "mtime": 1716308597.9031584, "nlink": 8, "path": "/orabin/oracle", "pw_name": "oracle", "readable": true, "rgrp": true, "roth": false, "rusr": true, "size": 97, "uid": 500, "version": "564003212", "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": true, "xoth": false, "xusr": true}}
+
+TASK [01_OS_prereq_19C : create required directories] *******************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=/orabin/oracle) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/orabin/oracle", "mode": "0750", "owner": "oracle", "path": "/orabin/oracle", "size": 97, "state": "directory", "uid": 500}
+changed: [w2dbaodbdevn01] => (item=/orabin/oracle/product/19.0.0) => {"ansible_loop_var": "item", "changed": true, "item": "/orabin/oracle/product/19.0.0", "path": "/orabin/oracle/product/19.0.0"}
+
+TASK [01_OS_prereq_19C : remove sendmail package] ***********************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "msg": "Nothing to do", "rc": 0, "results": []}
+
+TASK [01_OS_prereq_19C : Enable and (re)start service] ******************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "enabled": true, "name": "postfix", "status": {"ActiveEnterTimestamp": "Wed 2024-05-15 10:55:28 PDT", "ActiveEnterTimestampMonotonic": "522683489677", "ActiveExitTimestampMonotonic": "0", "ActiveState": "active", "After": "tmp.mount syslog.target network.target systemd-journald.socket sysinit.target systemd-tmpfiles-setup.service basic.target var-tmp.mount system.slice var.mount -.mount", "AllowIsolate": "no", "AssertResult": "yes", "AssertTimestamp": "Wed 2024-05-15 10:55:27 PDT", "AssertTimestampMonotonic": "522683149251", "Before": "shutdown.target multi-user.target", "BlockIOAccounting": "no", "BlockIOWeight": "[not set]", "CPUAccounting": "yes", "CPUAffinityFromNUMA": "no", "CPUQuotaPerSecUSec": "infinity", "CPUQuotaPeriodUSec": "infinity", "CPUSchedulingPolicy": "0", "CPUSchedulingPriority": "0", "CPUSchedulingResetOnFork": "no", "CPUShares": "[not set]", "CPUUsageNSec": "62960376000", "CPUWeight": "[not set]", "CacheDirectoryMode": "0755", "CanFreeze": "yes", "CanIsolate": "no", "CanReload": "yes", "CanStart": "yes", "CanStop": "yes", "CapabilityBoundingSet": "cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore", "CleanResult": "success", "CollectMode": "inactive", "ConditionResult": "yes", "ConditionTimestamp": "Wed 2024-05-15 10:55:27 PDT", "ConditionTimestampMonotonic": "522683149248", "ConfigurationDirectoryMode": "0755", "Conflicts": "sendmail.service shutdown.target exim.service", "ControlGroup": "/system.slice/postfix.service", "ControlGroupId": "130956", "ControlPID": "0", "CoredumpFilter": "0x33", "DefaultDependencies": "yes", "DefaultMemoryLow": "0", "DefaultMemoryMin": "0", "Delegate": "no", "Description": "Postfix Mail Transport Agent", "DevicePolicy": "closed", "DynamicUser": "no", "EnvironmentFiles": "/etc/sysconfig/network (ignore_errors=yes)", "ExecMainCode": "0", "ExecMainExitTimestampMonotonic": "0", "ExecMainPID": "414496", "ExecMainStartTimestamp": "Wed 2024-05-15 10:55:28 PDT", "ExecMainStartTimestampMonotonic": "522683489643", "ExecMainStatus": "0", "ExecReload": "{ path=/usr/sbin/postfix ; argv[]=/usr/sbin/postfix reload ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecReloadEx": "{ path=/usr/sbin/postfix ; argv[]=/usr/sbin/postfix reload ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecStart": "{ path=/usr/sbin/postfix ; argv[]=/usr/sbin/postfix start ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecStartEx": "{ path=/usr/sbin/postfix ; argv[]=/usr/sbin/postfix start ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecStartPre": "{ path=/usr/libexec/postfix/chroot-update ; argv[]=/usr/libexec/postfix/chroot-update ; ignore_errors=yes ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecStartPreEx": "{ path=/usr/libexec/postfix/chroot-update ; argv[]=/usr/libexec/postfix/chroot-update ; flags=ignore-failure ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecStop": "{ path=/usr/sbin/postfix ; argv[]=/usr/sbin/postfix stop ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExecStopEx": "{ path=/usr/sbin/postfix ; argv[]=/usr/sbin/postfix stop ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }", "ExitType": "main", "FailureAction": "none", "FileDescriptorStoreMax": "0", "FinalKillSignal": "9", "FragmentPath": "/usr/lib/systemd/system/postfix.service", "FreezerState": "running", "GID": "[not set]", "GuessMainPID": "yes", "IOAccounting": "no", "IOReadBytes": "18446744073709551615", "IOReadOperations": "18446744073709551615", "IOSchedulingClass": "2", "IOSchedulingPriority": "4", "IOWeight": "[not set]", "IOWriteBytes": "18446744073709551615", "IOWriteOperations": "18446744073709551615", "IPAccounting": "no", "IPEgressBytes": "[no data]", "IPEgressPackets": "[no data]", "IPIngressBytes": "[no data]", "IPIngressPackets": "[no data]", "Id": "postfix.service", "IgnoreOnIsolate": "no", "IgnoreSIGPIPE": "yes", "InactiveEnterTimestamp": "Wed 2024-05-15 10:53:37 PDT", "InactiveEnterTimestampMonotonic": "522572944117", "InactiveExitTimestamp": "Wed 2024-05-15 10:55:27 PDT", "InactiveExitTimestampMonotonic": "522683151962", "InvocationID": "51d20b0407f54ce6b34e852aca674459", "JobRunningTimeoutUSec": "infinity", "JobTimeoutAction": "none", "JobTimeoutUSec": "infinity", "KeyringMode": "private", "KillMode": "control-group", "KillSignal": "15", "LimitAS": "infinity", "LimitASSoft": "infinity", "LimitCORE": "infinity", "LimitCORESoft": "0", "LimitCPU": "infinity", "LimitCPUSoft": "infinity", "LimitDATA": "infinity", "LimitDATASoft": "infinity", "LimitFSIZE": "infinity", "LimitFSIZESoft": "infinity", "LimitLOCKS": "infinity", "LimitLOCKSSoft": "infinity", "LimitMEMLOCK": "8388608", "LimitMEMLOCKSoft": "8388608", "LimitMSGQUEUE": "819200", "LimitMSGQUEUESoft": "819200", "LimitNICE": "0", "LimitNICESoft": "0", "LimitNOFILE": "524288", "LimitNOFILESoft": "1024", "LimitNPROC": "29242", "LimitNPROCSoft": "29242", "LimitRSS": "infinity", "LimitRSSSoft": "infinity", "LimitRTPRIO": "0", "LimitRTPRIOSoft": "0", "LimitRTTIME": "infinity", "LimitRTTIMESoft": "infinity", "LimitSIGPENDING": "29242", "LimitSIGPENDINGSoft": "29242", "LimitSTACK": "infinity", "LimitSTACKSoft": "8388608", "LoadState": "loaded", "LockPersonality": "no", "LogLevelMax": "-1", "LogRateLimitBurst": "0", "LogRateLimitIntervalUSec": "0", "LogsDirectoryMode": "0755", "MainPID": "414496", "ManagedOOMMemoryPressure": "auto", "ManagedOOMMemoryPressureLimit": "0", "ManagedOOMPreference": "none", "ManagedOOMSwap": "auto", "MemoryAccounting": "yes", "MemoryAvailable": "infinity", "MemoryCurrent": "15306752", "MemoryDenyWriteExecute": "no", "MemoryHigh": "infinity", "MemoryLimit": "infinity", "MemoryLow": "0", "MemoryMax": "infinity", "MemoryMin": "0", "MemorySwapMax": "infinity", "MountAPIVFS": "no", "NFileDescriptorStore": "0", "NRestarts": "0", "NUMAPolicy": "n/a", "Names": "postfix.service", "NeedDaemonReload": "no", "Nice": "0", "NoNewPrivileges": "no", "NonBlocking": "no", "NotifyAccess": "none", "OOMPolicy": "stop", "OOMScoreAdjust": "0", "OnFailureJobMode": "replace", "OnSuccessJobMode": "fail", "PIDFile": "/var/spool/postfix/pid/master.pid", "Perpetual": "no", "PrivateDevices": "yes", "PrivateIPC": "no", "PrivateMounts": "no", "PrivateNetwork": "no", "PrivateTmp": "yes", "PrivateUsers": "no", "ProcSubset": "all", "ProtectClock": "no", "ProtectControlGroups": "no", "ProtectHome": "no", "ProtectHostname": "no", "ProtectKernelLogs": "no", "ProtectKernelModules": "no", "ProtectKernelTunables": "no", "ProtectProc": "default", "ProtectSystem": "yes", "RefuseManualStart": "no", "RefuseManualStop": "no", "ReloadResult": "success", "RemainAfterExit": "no", "RemoveIPC": "no", "Requires": "var-tmp.mount var.mount sysinit.target -.mount system.slice", "RequiresMountsFor": "/var/tmp", "Restart": "no", "RestartKillSignal": "15", "RestartUSec": "100ms", "RestrictNamespaces": "no", "RestrictRealtime": "no", "RestrictSUIDSGID": "no", "Result": "success", "RootDirectoryStartOnly": "no", "RuntimeDirectoryMode": "0755", "RuntimeDirectoryPreserve": "no", "RuntimeMaxUSec": "infinity", "RuntimeRandomizedExtraUSec": "0", "SameProcessGroup": "no", "SecureBits": "0", "SendSIGHUP": "no", "SendSIGKILL": "yes", "Slice": "system.slice", "StandardError": "inherit", "StandardInput": "null", "StandardOutput": "journal", "StartLimitAction": "none", "StartLimitBurst": "5", "StartLimitIntervalUSec": "10s", "StartupBlockIOWeight": "[not set]", "StartupCPUShares": "[not set]", "StartupCPUWeight": "[not set]", "StartupIOWeight": "[not set]", "StateChangeTimestamp": "Wed 2024-05-15 10:55:28 PDT", "StateChangeTimestampMonotonic": "522683489677", "StateDirectoryMode": "0755", "StatusErrno": "0", "StopWhenUnneeded": "no", "SubState": "running", "SuccessAction": "none", "SyslogFacility": "3", "SyslogLevel": "6", "SyslogLevelPrefix": "yes", "SyslogPriority": "30", "SystemCallErrorNumber": "2147483646", "TTYReset": "no", "TTYVHangup": "no", "TTYVTDisallocate": "no", "TasksAccounting": "yes", "TasksCurrent": "4", "TasksMax": "46787", "TimeoutAbortUSec": "1min 30s", "TimeoutCleanUSec": "infinity", "TimeoutStartFailureMode": "terminate", "TimeoutStartUSec": "1min 30s", "TimeoutStopFailureMode": "terminate", "TimeoutStopUSec": "1min 30s", "TimerSlackNSec": "50000", "Transient": "no", "Type": "forking", "UID": "[not set]", "UMask": "0022", "UnitFilePreset": "disabled", "UnitFileState": "enabled", "UtmpMode": "init", "WantedBy": "multi-user.target", "WatchdogSignal": "6", "WatchdogTimestampMonotonic": "0", "WatchdogUSec": "0"}}
+
+TASK [01_OS_prereq_19C : Update the /etc/postfix/main.cf file] **********************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"backup": "", "changed": false, "msg": ""}
+
+TASK [02_Install_dbsoftware_19C : Database pre software install message] ************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": [
+        "Oracle Database Software 19c Installation started for Single Instance at 2024-05-21T19:06:22Z:"
+    ]
+}
+
+TASK [02_Install_dbsoftware_19C : Check if oracle software is accessible] ***********************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "stat": {"atime": 1716091966.077475, "attr_flags": "", "attributes": [], "block_size": 32768, "blocks": 12646744, "charset": "binary", "ctime": 1709161992.080876, "dev": 41, "device_type": 0, "executable": false, "exists": true, "gid": 503, "gr_name": "oradba", "inode": 1000838045, "isblk": false, "ischr": false, "isdir": false, "isfifo": false, "isgid": false, "islnk": false, "isreg": true, "issock": false, "isuid": false, "mimetype": "application/zip", "mode": "0640", "mtime": 1706563042.709977, "nlink": 1, "path": "/oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip", "pw_name": "oracle", "readable": true, "rgrp": true, "roth": false, "rusr": true, "size": 6449729332, "uid": 500, "version": null, "wgrp": false, "woth": false, "writeable": true, "wusr": true, "xgrp": false, "xoth": false, "xusr": false}}
+
+TASK [02_Install_dbsoftware_19C : Error Oracle Home image/software is not available] ************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "ora_bin.stat.exists == False", "skip_reason": "Conditional result was False"}
+
+TASK [02_Install_dbsoftware_19C : Ensure free space on disk is more than 20 GB] *****************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+ok: [w2dbaodbdevn01] => (item=None) => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+skipping: [w2dbaodbdevn01] => (item=None)  => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+ok: [w2dbaodbdevn01] => {"censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result", "changed": false}
+
+TASK [02_Install_dbsoftware_19C : debug] ********************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": "export CV_ASSUME_DISTID=8"
+}
+
+TASK [02_Install_dbsoftware_19C : debug] ********************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": "checking resource limits"
+}
+
+TASK [02_Install_dbsoftware_19C : check file descriptor soft limit] *****************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ulimit -Sn", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : ---] **********************************************************************************************************************************************************************************
+fatal: [w2dbaodbdevn01]: FAILED! => {"changed": false, "msg": "warning: file descriptor soft limit is "}
+...ignoring
+
+TASK [02_Install_dbsoftware_19C : check file descriptor hard limit] *****************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ulimit -Hn", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : ---] **********************************************************************************************************************************************************************************
+fatal: [w2dbaodbdevn01]: FAILED! => {"changed": false, "msg": "warning: file descriptor hard limit is "}
+...ignoring
+
+TASK [02_Install_dbsoftware_19C : check available processes soft limit] *************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ulimit -Su", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : ---] **********************************************************************************************************************************************************************************
+fatal: [w2dbaodbdevn01]: FAILED! => {"changed": false, "msg": "warning: available processes soft limit is "}
+...ignoring
+
+TASK [02_Install_dbsoftware_19C : check available processes hard limit] *************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ulimit -Hu", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : ---] **********************************************************************************************************************************************************************************
+fatal: [w2dbaodbdevn01]: FAILED! => {"changed": false, "msg": "warning: available processes hard limit is "}
+...ignoring
+
+TASK [02_Install_dbsoftware_19C : check stack segment soft limit] *******************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ulimit -Ss", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : ---] **********************************************************************************************************************************************************************************
+fatal: [w2dbaodbdevn01]: FAILED! => {"changed": false, "msg": "warning: stack segment soft limit is "}
+...ignoring
+
+TASK [02_Install_dbsoftware_19C : check stack segment hard limit] *******************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ulimit -Hs", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : ---] **********************************************************************************************************************************************************************************
+fatal: [w2dbaodbdevn01]: FAILED! => {"changed": false, "msg": "warning: stack segment hard limit is "}
+...ignoring
+
+TASK [02_Install_dbsoftware_19C : create required directories] **********************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => (item=/home/oracle/stage) => {"ansible_loop_var": "item", "changed": true, "gid": 503, "group": "oradba", "item": "/home/oracle/stage", "mode": "0755", "owner": "oracle", "path": "/home/oracle/stage", "size": 4096, "state": "directory", "uid": 500}
+
+TASK [02_Install_dbsoftware_19C : Unpack Oracle 19c Database Software to the target server] *****************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "not ansible_check_mode", "skip_reason": "Conditional result was False"}
+
+TASK [02_Install_dbsoftware_19C : Setup Oracle 19c Database Software silent response file] ******************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "checksum": "a64a0341cce0f3a2839e0d83d8cdcde56781ee8a", "dest": "/home/oracle/stage/19cEE_SoftOnly.rsp", "gid": 503, "group": "oradba", "mode": "0755", "owner": "oracle", "path": "/home/oracle/stage/19cEE_SoftOnly.rsp", "size": 659, "state": "file", "uid": 500}
+
+TASK [02_Install_dbsoftware_19C : Install Oracle 19c Database Software] *************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "export CV_ASSUME_DISTID=8; /orabin/oracle/product/19.0.0/runInstaller -silent -responseFile /home/oracle/stage/19cEE_SoftOnly.rsp -noconfig -ignorePrereqFailure", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : Execute orainstroot.sh] ***************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "/orabin/oraInventory/orainstRoot.sh", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : Execute root.sh] **********************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "/orabin/oracle/product/19.0.0/root.sh -silent", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : Get RDBMS Software Version] ***********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0\n/orabin/oracle/product/19.0.0/bin/sqlplus -version\n", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [02_Install_dbsoftware_19C : Output from Post Database Software Installation Check] ********************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "sqlversion.stdout_lines|map('trim')|list": []
+}
+
+TASK [02_Install_dbsoftware_19C : display post install message] *********************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": [
+        "This Steps completed below task for Single Instance at 2024-05-21T19:06:22Z:",
+        "- Install Single Instance Oracle Database Software",
+        "Next Steps left to do:",
+        "- Create SI empty Container Database on server ora-x1",
+        "- Create SI Pluggable Database on server ora-x1",
+        "- Deinstall Single Instance Oracle Database Software",
+        "- END OF ALL: git clone of OracleDBAwithAnsible repository will be shared"
+    ]
+}
+
+TASK [03_Create_db_19C : display Pre install message] *******************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": [
+        "Create Single Instance at 2024-05-21T19:06:22Z:"
+    ]
+}
+
+TASK [03_Create_db_19C : Check if database is already created] **********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "grep ^ANSIBLE:/orabin/oracle/product/19.0.0 /etc/oratab |wc -l;", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [03_Create_db_19C : DB already exists] *****************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "dbexistence.stdout | int > 0", "skip_reason": "Conditional result was False"}
+
+TASK [03_Create_db_19C : Check if database is already created] **********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "ps -ef|grep ANSIBLE|grep -v grep |wc -l;", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [03_Create_db_19C : DB already exists] *****************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "dbexistence.stdout | int > 0", "skip_reason": "Conditional result was False"}
+
+TASK [03_Create_db_19C : Backup existing tnsnames.ora and listener.ora files (backup files)] ****************************************************************************************************************************
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+failed: [w2dbaodbdevn01] (item=/orabin/oracle/product/19.0.0/network/admin/tnsnames.ora) => {"ansible_loop_var": "item", "changed": false, "item": "/orabin/oracle/product/19.0.0/network/admin/tnsnames.ora", "msg": "Could not find or access '/orabin/oracle/product/19.0.0/network/admin/tnsnames.ora' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+An exception occurred during task execution. To see the full traceback, use -vvv. The error was: If you are using a module and expect the file to exist on the remote, see the remote_src option
+failed: [w2dbaodbdevn01] (item=/orabin/oracle/product/19.0.0/network/admin/listener.ora) => {"ansible_loop_var": "item", "changed": false, "item": "/orabin/oracle/product/19.0.0/network/admin/listener.ora", "msg": "Could not find or access '/orabin/oracle/product/19.0.0/network/admin/listener.ora' on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+...ignoring
+
+TASK [03_Create_db_19C : Backup existing tnsnames.ora and listener.ora files (delete files)] ****************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=/orabin/oracle/product/19.0.0/network/admin/tnsnames.ora) => {"ansible_loop_var": "item", "changed": false, "item": "/orabin/oracle/product/19.0.0/network/admin/tnsnames.ora", "path": "/orabin/oracle/product/19.0.0/network/admin/tnsnames.ora", "state": "absent"}
+ok: [w2dbaodbdevn01] => (item=/orabin/oracle/product/19.0.0/network/admin/listener.ora) => {"ansible_loop_var": "item", "changed": false, "item": "/orabin/oracle/product/19.0.0/network/admin/listener.ora", "path": "/orabin/oracle/product/19.0.0/network/admin/listener.ora", "state": "absent"}
+
+TASK [03_Create_db_19C : Create_DB | create required directories] *******************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=/home/oracle/stage) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/home/oracle/stage", "mode": "0755", "owner": "oracle", "path": "/home/oracle/stage", "size": 4096, "state": "directory", "uid": 500}
+ok: [w2dbaodbdevn01] => (item=/oradata/ANSIBLE) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/oradata/ANSIBLE", "mode": "0755", "owner": "oracle", "path": "/oradata/ANSIBLE", "size": 18, "state": "directory", "uid": 500}
+ok: [w2dbaodbdevn01] => (item=/oradata/ANSIBLE/arch) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/oradata/ANSIBLE/arch", "mode": "0755", "owner": "oracle", "path": "/oradata/ANSIBLE/arch", "size": 6, "state": "directory", "uid": 500}
+ok: [w2dbaodbdevn01] => (item=/orabkup/ANSIBLE) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/orabkup/ANSIBLE", "mode": "0755", "owner": "oracle", "path": "/orabkup/ANSIBLE", "size": 6, "state": "directory", "uid": 500}
+
+TASK [03_Create_db_19C : Create_DB | Copy required script to  database server] ******************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=lsnr_update) => {"ansible_loop_var": "item", "changed": false, "checksum": "f4bcca3c5b28e92147c142a425052a18e0416763", "dest": "/home/oracle/stage/lsnr_update.sh", "gid": 503, "group": "oradba", "item": "lsnr_update", "mode": "0775", "owner": "oracle", "path": "/home/oracle/stage/lsnr_update.sh", "size": 803, "state": "file", "uid": 500}
+ok: [w2dbaodbdevn01] => (item=tns_update) => {"ansible_loop_var": "item", "changed": false, "checksum": "9cf7281e45230c269010b10c582eabe03c950330", "dest": "/home/oracle/stage/tns_update.sh", "gid": 503, "group": "oradba", "item": "tns_update", "mode": "0775", "owner": "oracle", "path": "/home/oracle/stage/tns_update.sh", "size": 969, "state": "file", "uid": 500}
+
+TASK [03_Create_db_19C : Copy DB templates to server] *******************************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => (item=Gilead_Minimum_19.0.0.0) => {"ansible_loop_var": "item", "changed": true, "item": "Gilead_Minimum_19.0.0.0"}
+changed: [w2dbaodbdevn01] => (item=Gilead_Oracle_Text_19.0.0.0) => {"ansible_loop_var": "item", "changed": true, "item": "Gilead_Oracle_Text_19.0.0.0"}
+
+TASK [03_Create_db_19C : remote local copy] *****************************************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => {"changed": true, "checksum": "584ae5cda5b597753d7449eeaa6125afcf6fb370", "dest": "/home/oracle/.avail", "md5sum": "d6105c44382cfe51b9443b5113006bb4", "src": "/oradba/maint/.avail"}
+
+TASK [03_Create_db_19C : stat] ******************************************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "stat": {"exists": false}}
+
+TASK [03_Create_db_19C : debug] *****************************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"false_condition": "not ansible_check_mode"}
+
+TASK [03_Create_db_19C : Create_DB | create silent listener config file] ************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {"changed": false, "checksum": "c49a565e608e072ed05a1f1a81739049631a1d57", "dest": "/home/oracle/stage/silent-lsnr19c-config.rsp", "gid": 503, "group": "oradba", "mode": "0775", "owner": "oracle", "path": "/home/oracle/stage/silent-lsnr19c-config.rsp", "size": 427, "state": "file", "uid": 500}
+
+TASK [03_Create_db_19C : Create_DB | Configuring listener] **************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; $ORACLE_HOME/bin/netca -silent -responseFile /home/oracle/stage/silent-lsnr19c-config.rsp", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [03_Create_db_19C : Create_DB | Create Listener status] ************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": ""
+}
+
+TASK [03_Create_db_19C : Create_DB | Update listener.roa for DB database] ***********************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "/home/oracle/stage/lsnr_update.sh ANSIBLE /orabin/oracle/product/19.0.0 /orabin/oracle/product/19.0.0/network/admin", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [03_Create_db_19C : Create_DB | LISTENER Update status] ************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": ""
+}
+
+TASK [03_Create_db_19C : Create_DB | create silent database install file] ***********************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => {"changed": true}
+
+TASK [03_Create_db_19C : Create_DB | Create a Non-CDB Database] *********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; /orabin/oracle/product/19.0.0/bin/dbca -silent -createDatabase -responseFile /home/oracle/stage/silent_19cdb_config.rsp", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [03_Create_db_19C : Create_DB | Create DB status] ******************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": {
+        "changed": false,
+        "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; /orabin/oracle/product/19.0.0/bin/dbca -silent -createDatabase -responseFile /home/oracle/stage/silent_19cdb_config.rsp",
+        "delta": null,
+        "end": null,
+        "failed": false,
+        "msg": "Command would have run if not in check mode",
+        "rc": 0,
+        "skipped": true,
+        "start": null,
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "",
+        "stdout_lines": []
+    }
+}
+
+TASK [03_Create_db_19C : Create_DB | execute tns update for DB database] ************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "/home/oracle/stage/tns_update.sh ANSIBLE w2dbaodbdevn01.na.gilead.com 1521 ANSIBLE /orabin/oracle/product/19.0.0/network/admin", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [03_Create_db_19C : Create_DB | TNS Update status] *****************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": ""
+}
+
+TASK [03_Create_db_19C : Create_DB | validate DB] ***********************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => (item=select sysdate||' -> ' ||host_name ||' -> ' ||name||' -> ' ||open_mode||' -> ' ||database_roleas DB_Output from v\$database,v\$instance,dual)  => {"ansible_loop_var": "item", "changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo \"select sysdate||' -> ' ||host_name ||' -> ' ||name||' -> ' ||open_mode||' -> ' ||database_roleas DB_Output from v\\$database,v\\$instance,dual;\" | /orabin/oracle/product/19.0.0/bin/sqlplus -s / as sysdba", "delta": null, "end": null, "item": "select sysdate||' -> ' ||host_name ||' -> ' ||name||' -> ' ||open_mode||' -> ' ||database_roleas DB_Output from v\\$database,v\\$instance,dual", "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+skipping: [w2dbaodbdevn01] => {"changed": false, "msg": "All items skipped"}
+
+TASK [03_Create_db_19C : display DB validation output message] **********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => (item=)  => {"ansible_loop_var": "item", "false_condition": "not ansible_check_mode", "item": ""}
+skipping: [w2dbaodbdevn01] => {"msg": "All items skipped"}
+
+TASK [03_Create_db_19C : display post install message] ******************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": [
+        "This Steps completed below task for Single Instance at 2024-05-21T19:06:22Z:"
+    ]
+}
+
+TASK [04_Post_DB_built : Check DB running status] ***********************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "not ansible_check_mode", "skip_reason": "Conditional result was False"}
+
+TASK [04_Post_DB_built : If DB not running stop the execution] **********************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "not ansible_check_mode", "skip_reason": "Conditional result was False"}
+
+TASK [04_Post_DB_built : Post_DB | create required directories] *********************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=/home/oracle/stage) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/home/oracle/stage", "mode": "0755", "owner": "oracle", "path": "/home/oracle/stage", "size": 4096, "state": "directory", "uid": 500}
+ok: [w2dbaodbdevn01] => (item=/orabkup/ANSIBLE) => {"ansible_loop_var": "item", "changed": false, "gid": 503, "group": "oradba", "item": "/orabkup/ANSIBLE", "mode": "0755", "owner": "oracle", "path": "/orabkup/ANSIBLE", "size": 6, "state": "directory", "uid": 500}
+
+TASK [04_Post_DB_built : Create_DB | Copy required script to  database server] ******************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => (item=cronjobs) => {"ansible_loop_var": "item", "changed": true, "item": "cronjobs"}
+changed: [w2dbaodbdevn01] => (item=blockchange_tracking.sql) => {"ansible_loop_var": "item", "changed": true, "item": "blockchange_tracking.sql"}
+changed: [w2dbaodbdevn01] => (item=update_unique_name.sql) => {"ansible_loop_var": "item", "changed": true, "item": "update_unique_name.sql"}
+
+TASK [04_Post_DB_built : Post_DB | Copy script to server] ***************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item=enable_dbarchlogs.sql) => {"ansible_loop_var": "item", "changed": false, "checksum": "d74682cb881e5b5d918f6629be86a45eaca38604", "dest": "/home/oracle/stage/enable_dbarchlogs.sql", "gid": 503, "group": "oradba", "item": "enable_dbarchlogs.sql", "mode": "0775", "owner": "oracle", "path": "/home/oracle/stage/enable_dbarchlogs.sql", "size": 118, "state": "file", "uid": 500}
+ok: [w2dbaodbdevn01] => (item=db_shutdown.sql) => {"ansible_loop_var": "item", "changed": false, "checksum": "6c145722a9c02037ee975ef25d364a05d04509ea", "dest": "/home/oracle/stage/db_shutdown.sql", "gid": 503, "group": "oradba", "item": "db_shutdown.sql", "mode": "0775", "owner": "oracle", "path": "/home/oracle/stage/db_shutdown.sql", "size": 21, "state": "file", "uid": 500}
+
+TASK [04_Post_DB_built : stat] ******************************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "false_condition": "not ansible_check_mode", "skip_reason": "Conditional result was False"}
+
+TASK [04_Post_DB_built : debug] *****************************************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"false_condition": "not ansible_check_mode"}
+
+TASK [04_Post_DB_built : Post DB | execute DB scripts] ******************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => (item=/oradba/scripts/Gilead_standards_creation.sql)  => {"ansible_loop_var": "item", "changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo \"@/oradba/scripts/Gilead_standards_creation.sql;\" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba", "delta": null, "end": null, "item": "/oradba/scripts/Gilead_standards_creation.sql", "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+skipping: [w2dbaodbdevn01] => (item=/home/oracle/stage/update_unique_name.sql)  => {"ansible_loop_var": "item", "changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo \"@/home/oracle/stage/update_unique_name.sql;\" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba", "delta": null, "end": null, "item": "/home/oracle/stage/update_unique_name.sql", "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+skipping: [w2dbaodbdevn01] => (item=/home/oracle/stage/blockchange_tracking.sql)  => {"ansible_loop_var": "item", "changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo \"@/home/oracle/stage/blockchange_tracking.sql;\" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba", "delta": null, "end": null, "item": "/home/oracle/stage/blockchange_tracking.sql", "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+skipping: [w2dbaodbdevn01] => (item=/home/oracle/stage/enable_dbarchlogs.sql)  => {"ansible_loop_var": "item", "changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo \"@/home/oracle/stage/enable_dbarchlogs.sql;\" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba", "delta": null, "end": null, "item": "/home/oracle/stage/enable_dbarchlogs.sql", "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+skipping: [w2dbaodbdevn01] => (item=/home/oracle/stage/db_shutdown.sql)  => {"ansible_loop_var": "item", "changed": false, "cmd": "export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo \"@/home/oracle/stage/db_shutdown.sql;\" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba", "delta": null, "end": null, "item": "/home/oracle/stage/db_shutdown.sql", "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+skipping: [w2dbaodbdevn01] => {"changed": false, "msg": "All items skipped"}
+
+TASK [04_Post_DB_built : display DB validation output message] **********************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item={'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/oradba/scripts/Gilead_standards_creation.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', 'start': None, 'end': None, 'delta': None, 'msg': 'Command would have run if not in check mode', 'skipped': True, 'invocation': {'module_args': {'_raw_params': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/oradba/scripts/Gilead_standards_creation.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', '_uses_shell': True, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'item': '/oradba/scripts/Gilead_standards_creation.sql', 'ansible_loop_var': 'item'}) => {
+    "msg": ""
+}
+ok: [w2dbaodbdevn01] => (item={'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/update_unique_name.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', 'start': None, 'end': None, 'delta': None, 'msg': 'Command would have run if not in check mode', 'skipped': True, 'invocation': {'module_args': {'_raw_params': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/update_unique_name.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', '_uses_shell': True, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'item': '/home/oracle/stage/update_unique_name.sql', 'ansible_loop_var': 'item'}) => {
+    "msg": ""
+}
+ok: [w2dbaodbdevn01] => (item={'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/blockchange_tracking.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', 'start': None, 'end': None, 'delta': None, 'msg': 'Command would have run if not in check mode', 'skipped': True, 'invocation': {'module_args': {'_raw_params': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/blockchange_tracking.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', '_uses_shell': True, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'item': '/home/oracle/stage/blockchange_tracking.sql', 'ansible_loop_var': 'item'}) => {
+    "msg": ""
+}
+ok: [w2dbaodbdevn01] => (item={'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/enable_dbarchlogs.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', 'start': None, 'end': None, 'delta': None, 'msg': 'Command would have run if not in check mode', 'skipped': True, 'invocation': {'module_args': {'_raw_params': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/enable_dbarchlogs.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', '_uses_shell': True, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'item': '/home/oracle/stage/enable_dbarchlogs.sql', 'ansible_loop_var': 'item'}) => {
+    "msg": ""
+}
+ok: [w2dbaodbdevn01] => (item={'changed': False, 'stdout': '', 'stderr': '', 'rc': 0, 'cmd': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/db_shutdown.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', 'start': None, 'end': None, 'delta': None, 'msg': 'Command would have run if not in check mode', 'skipped': True, 'invocation': {'module_args': {'_raw_params': 'export ORACLE_HOME=/orabin/oracle/product/19.0.0; export ORACLE_SID=ANSIBLE; export PATH=$PATH:$ORACLE_HOME/bin; echo "@/home/oracle/stage/db_shutdown.sql;" | /orabin/oracle/product/19.0.0/bin/sqlplus / as sysdba', '_uses_shell': True, 'stdin_add_newline': True, 'strip_empty_ends': True, 'argv': None, 'chdir': None, 'executable': None, 'creates': None, 'removes': None, 'stdin': None}}, 'stdout_lines': [], 'stderr_lines': [], 'failed': False, 'item': '/home/oracle/stage/db_shutdown.sql', 'ansible_loop_var': 'item'}) => {
+    "msg": ""
+}
+
+TASK [04_Post_DB_built : Post_DB | setup necessary kernel parameters] ***************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => (item={'name': 'vm.hugetlb_shm_group', 'value': 503}) => {"ansible_loop_var": "item", "changed": false, "item": {"name": "vm.hugetlb_shm_group", "value": 503}}
+changed: [w2dbaodbdevn01] => (item={'name': 'vm.nr_hugepages', 'value': '2049'}) => {"ansible_loop_var": "item", "changed": true, "item": {"name": "vm.nr_hugepages", "value": "2049"}}
+
+TASK [04_Post_DB_built : Post_DB | Modify oratab] ***********************************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => {"backup": "", "changed": true, "msg": "line added"}
+
+TASK [04_Post_DB_built : Auto start DB] *********************************************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => (item=dbora.service) => {"ansible_loop_var": "item", "changed": true, "item": "dbora.service"}
+
+TASK [04_Post_DB_built : Autostart and (re)start dbora service] *********************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => {"changed": true, "enabled": true, "name": "dbora", "state": "started", "status": {"ActiveEnterTimestamp": "Tue 2024-05-21 11:47:24 PDT", "ActiveEnterTimestampMonotonic": "1044200026165", "ActiveExitTimestamp": "Tue 2024-05-21 11:52:46 PDT", "ActiveExitTimestampMonotonic": "1044521894175", "ActiveState": "inactive", "After": "basic.target orabin.mount system.slice sysinit.target network.target systemd-journald.socket oradata.mount", "AllowIsolate": "no", "AssertResult": "yes", "AssertTimestamp": "Tue 2024-05-21 11:47:16 PDT", "AssertTimestampMonotonic": "1044191868189", "Before": "shutdown.target multi-user.target", "BlockIOAccounting": "no", "BlockIOWeight": "[not set]", "CPUAccounting": "yes", "CPUAffinityFromNUMA": "no", "CPUQuotaPerSecUSec": "infinity", "CPUQuotaPeriodUSec": "infinity", "CPUSchedulingPolicy": "0", "CPUSchedulingPriority": "0", "CPUSchedulingResetOnFork": "no", "CPUShares": "[not set]", "CPUUsageNSec": "26507300000", "CPUWeight": "[not set]", "CacheDirectoryMode": "0755", "CanFreeze": "yes", "CanIsolate": "no", "CanReload": "no", "CanStart": "yes", "CanStop": "yes", "CapabilityBoundingSet": "cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore", "CleanResult": "success", "CollectMode": "inactive", "ConditionResult": "yes", "ConditionTimestamp": "Tue 2024-05-21 11:47:16 PDT", "ConditionTimestampMonotonic": "1044191868186", "ConfigurationDirectoryMode": "0755", "Conflicts": "shutdown.target", "ControlGroupId": "242186", "ControlPID": "0", "CoredumpFilter": "0x33", "DefaultDependencies": "yes", "DefaultMemoryLow": "0", "DefaultMemoryMin": "0", "Delegate": "no", "Description": "The Oracle Database Service", "DevicePolicy": "auto", "DynamicUser": "no", "ExecMainCode": "0", "ExecMainExitTimestampMonotonic": "0", "ExecMainPID": "0", "ExecMainStartTimestampMonotonic": "0", "ExecMainStatus": "0", "ExecStart": "{ path=/orabin/oracle/product/19.0.0_new/bin/dbstart ; argv[]=/orabin/oracle/product/19.0.0_new/bin/dbstart /orabin/oracle/product/19.0.0_new & ; ignore_errors=no ; start_time=[Tue 2024-05-21 11:47:16 PDT] ; stop_time=[Tue 2024-05-21 11:47:24 PDT] ; pid=1012951 ; code=exited ; status=0 }", "ExecStartEx": "{ path=/orabin/oracle/product/19.0.0_new/bin/dbstart ; argv[]=/orabin/oracle/product/19.0.0_new/bin/dbstart /orabin/oracle/product/19.0.0_new & ; flags= ; start_time=[Tue 2024-05-21 11:47:16 PDT] ; stop_time=[Tue 2024-05-21 11:47:24 PDT] ; pid=1012951 ; code=exited ; status=0 }", "ExecStop": "{ path=/orabin/oracle/product/19.0.0_new/bin/dbshut ; argv[]=/orabin/oracle/product/19.0.0_new/bin/dbshut /orabin/oracle/product/19.0.0_new ; ignore_errors=no ; start_time=[Tue 2024-05-21 11:52:46 PDT] ; stop_time=[Tue 2024-05-21 11:53:05 PDT] ; pid=1013838 ; code=exited ; status=0 }", "ExecStopEx": "{ path=/orabin/oracle/product/19.0.0_new/bin/dbshut ; argv[]=/orabin/oracle/product/19.0.0_new/bin/dbshut /orabin/oracle/product/19.0.0_new ; flags= ; start_time=[Tue 2024-05-21 11:52:46 PDT] ; stop_time=[Tue 2024-05-21 11:53:05 PDT] ; pid=1013838 ; code=exited ; status=0 }", "ExitType": "main", "FailureAction": "none", "FileDescriptorStoreMax": "0", "FinalKillSignal": "9", "FragmentPath": "/usr/lib/systemd/system/dbora.service", "FreezerState": "running", "GID": "[not set]", "Group": "oradba", "GuessMainPID": "yes", "IOAccounting": "no", "IOReadBytes": "18446744073709551615", "IOReadOperations": "18446744073709551615", "IOSchedulingClass": "2", "IOSchedulingPriority": "4", "IOWeight": "[not set]", "IOWriteBytes": "18446744073709551615", "IOWriteOperations": "18446744073709551615", "IPAccounting": "no", "IPEgressBytes": "[no data]", "IPEgressPackets": "[no data]", "IPIngressBytes": "[no data]", "IPIngressPackets": "[no data]", "Id": "dbora.service", "IgnoreOnIsolate": "no", "IgnoreSIGPIPE": "yes", "InactiveEnterTimestamp": "Tue 2024-05-21 11:53:05 PDT", "InactiveEnterTimestampMonotonic": "1044540740618", "InactiveExitTimestamp": "Tue 2024-05-21 11:47:16 PDT", "InactiveExitTimestampMonotonic": "1044191869665", "InvocationID": "eb7d9fe2d82546e3b257240fc12d5106", "JobRunningTimeoutUSec": "infinity", "JobTimeoutAction": "none", "JobTimeoutUSec": "infinity", "KeyringMode": "private", "KillMode": "none", "KillSignal": "15", "LimitAS": "infinity", "LimitASSoft": "infinity", "LimitCORE": "infinity", "LimitCORESoft": "0", "LimitCPU": "infinity", "LimitCPUSoft": "infinity", "LimitDATA": "infinity", "LimitDATASoft": "infinity", "LimitFSIZE": "infinity", "LimitFSIZESoft": "infinity", "LimitLOCKS": "infinity", "LimitLOCKSSoft": "infinity", "LimitMEMLOCK": "8388608", "LimitMEMLOCKSoft": "8388608", "LimitMSGQUEUE": "819200", "LimitMSGQUEUESoft": "819200", "LimitNICE": "0", "LimitNICESoft": "0", "LimitNOFILE": "524288", "LimitNOFILESoft": "1024", "LimitNPROC": "29242", "LimitNPROCSoft": "29242", "LimitRSS": "infinity", "LimitRSSSoft": "infinity", "LimitRTPRIO": "0", "LimitRTPRIOSoft": "0", "LimitRTTIME": "infinity", "LimitRTTIMESoft": "infinity", "LimitSIGPENDING": "29242", "LimitSIGPENDINGSoft": "29242", "LimitSTACK": "infinity", "LimitSTACKSoft": "8388608", "LoadState": "loaded", "LockPersonality": "no", "LogLevelMax": "-1", "LogRateLimitBurst": "0", "LogRateLimitIntervalUSec": "0", "LogsDirectoryMode": "0755", "MainPID": "0", "ManagedOOMMemoryPressure": "auto", "ManagedOOMMemoryPressureLimit": "0", "ManagedOOMPreference": "none", "ManagedOOMSwap": "auto", "MemoryAccounting": "yes", "MemoryAvailable": "infinity", "MemoryCurrent": "[not set]", "MemoryDenyWriteExecute": "no", "MemoryHigh": "infinity", "MemoryLimit": "infinity", "MemoryLow": "0", "MemoryMax": "infinity", "MemoryMin": "0", "MemorySwapMax": "infinity", "MountAPIVFS": "no", "NFileDescriptorStore": "0", "NRestarts": "0", "NUMAPolicy": "n/a", "Names": "dbora.service", "NeedDaemonReload": "no", "Nice": "0", "NoNewPrivileges": "no", "NonBlocking": "no", "NotifyAccess": "none", "OOMPolicy": "stop", "OOMScoreAdjust": "0", "OnFailureJobMode": "replace", "OnSuccessJobMode": "fail", "Perpetual": "no", "PrivateDevices": "no", "PrivateIPC": "no", "PrivateMounts": "no", "PrivateNetwork": "no", "PrivateTmp": "no", "PrivateUsers": "no", "ProcSubset": "all", "ProtectClock": "no", "ProtectControlGroups": "no", "ProtectHome": "no", "ProtectHostname": "no", "ProtectKernelLogs": "no", "ProtectKernelModules": "no", "ProtectKernelTunables": "no", "ProtectProc": "default", "ProtectSystem": "no", "RefuseManualStart": "no", "RefuseManualStop": "no", "ReloadResult": "success", "RemainAfterExit": "yes", "RemoveIPC": "no", "Requires": "system.slice sysinit.target", "Restart": "no", "RestartKillSignal": "15", "RestartUSec": "100ms", "RestrictNamespaces": "no", "RestrictRealtime": "no", "RestrictSUIDSGID": "no", "Result": "success", "RootDirectoryStartOnly": "no", "RuntimeDirectoryMode": "0755", "RuntimeDirectoryPreserve": "no", "RuntimeMaxUSec": "infinity", "RuntimeRandomizedExtraUSec": "0", "SameProcessGroup": "no", "SecureBits": "0", "SendSIGHUP": "no", "SendSIGKILL": "yes", "Slice": "system.slice", "StandardError": "inherit", "StandardInput": "null", "StandardOutput": "journal", "StartLimitAction": "none", "StartLimitBurst": "5", "StartLimitIntervalUSec": "10s", "StartupBlockIOWeight": "[not set]", "StartupCPUShares": "[not set]", "StartupCPUWeight": "[not set]", "StartupIOWeight": "[not set]", "StateChangeTimestamp": "Tue 2024-05-21 11:53:05 PDT", "StateChangeTimestampMonotonic": "1044540740618", "StateDirectoryMode": "0755", "StatusErrno": "0", "StopWhenUnneeded": "no", "SubState": "dead", "SuccessAction": "none", "SyslogFacility": "3", "SyslogLevel": "6", "SyslogLevelPrefix": "yes", "SyslogPriority": "30", "SystemCallErrorNumber": "2147483646", "TTYReset": "no", "TTYVHangup": "no", "TTYVTDisallocate": "no", "TasksAccounting": "yes", "TasksCurrent": "[not set]", "TasksMax": "46787", "TimeoutAbortUSec": "5min", "TimeoutCleanUSec": "infinity", "TimeoutStartFailureMode": "terminate", "TimeoutStartUSec": "1min 30s", "TimeoutStopFailureMode": "terminate", "TimeoutStopUSec": "5min", "TimerSlackNSec": "50000", "Transient": "no", "Type": "forking", "UID": "[not set]", "UMask": "0022", "UnitFilePreset": "disabled", "UnitFileState": "enabled", "User": "oracle", "UtmpMode": "init", "WantedBy": "multi-user.target", "WatchdogSignal": "6", "WatchdogTimestampMonotonic": "0", "WatchdogUSec": "0"}}
+
+TASK [04_Post_DB_built : Post_DB | Update crontab] **********************************************************************************************************************************************************************
+skipping: [w2dbaodbdevn01] => {"changed": false, "cmd": "crontab -l >> \"/home/oracle/stage/crontab.2024-05-21T19:06:22Z\" ; crontab -r ; crontab \"/home/oracle/stage/cronjobs\"", "delta": null, "end": null, "msg": "Command would have run if not in check mode", "rc": 0, "start": null, "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [04_Post_DB_built : Post_DB | crontab status] **********************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": {
+        "changed": false,
+        "cmd": "crontab -l >> \"/home/oracle/stage/crontab.2024-05-21T19:06:22Z\" ; crontab -r ; crontab \"/home/oracle/stage/cronjobs\"",
+        "delta": null,
+        "end": null,
+        "failed": false,
+        "msg": "Command would have run if not in check mode",
+        "rc": 0,
+        "skipped": true,
+        "start": null,
+        "stderr": "",
+        "stderr_lines": [],
+        "stdout": "",
+        "stdout_lines": []
+    }
+}
+
+TASK [04_Post_DB_built : Create_DB | Add profile] ***********************************************************************************************************************************************************************
+changed: [w2dbaodbdevn01] => {"changed": true}
+
+TASK [04_Post_DB_built : display post built task message] ***************************************************************************************************************************************************************
+ok: [w2dbaodbdevn01] => {
+    "msg": [
+        "This Steps completed below task for Single Instance at 2024-05-21T19:06:22Z:"
+    ]
+}
+
+PLAY RECAP **************************************************************************************************************************************************************************************************************
+w2dbaodbdevn01             : ok=60   changed=12   unreachable=0    failed=0    skipped=35   rescued=0    ignored=7

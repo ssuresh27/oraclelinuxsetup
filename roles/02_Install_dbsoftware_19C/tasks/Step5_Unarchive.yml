@@ -8,5 +8,6 @@
     owner:  "{{ oracle_user }}"
   #This will be ignored during check mode
   when: not ansible_check_mode
+  no_log: true
   tags:
    - db19c_unpackdbsoftware

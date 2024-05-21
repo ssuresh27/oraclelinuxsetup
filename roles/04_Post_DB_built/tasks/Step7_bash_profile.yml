@@ -1,4 +1,4 @@
 ---
-- name: Create_DB | Add profile
+- name: Post_DB | Add profile
   template: src=dbaprofile.j2 dest={{ ansible_env.HOME }}/.bash_profile owner={{ oracle_user }} group={{ oracle_install_group }} mode=775 backup=yes
   tags: dbcreate_dbprofile
