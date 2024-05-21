@@ -220,12 +220,13 @@ nodelist=
 # Default value : None
 # Mandatory     : Yes
 #-----------------------------------------------------------------------------
-#templateName={{template_name}}
+#templateName=
 {% if template_name is defined %}
 templateName={{ template_name }}
 {% else %}
 templateName=Gilead_Minimum_19.0.0.0.dbt
 {% endif %}
+
 #-----------------------------------------------------------------------------
 # Name          : sysPassword
 # Datatype      : String

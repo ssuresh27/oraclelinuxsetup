@@ -16,5 +16,5 @@
   tags:
    - db19c_exeroot
 
-- name: Remove stage directory 
-  file: path={{ stage_dir }} state=absent
+# - name: Remove stage directory 
+#   file: path={{ stage_dir }} state=absent

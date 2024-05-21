@@ -41,7 +41,7 @@ DB_PGA: "{{ (ansible_memtotal_mb  * 0.10 / 1024 ) |round | int }}"
 
 
 # DB response file 
-silent_database19c_config_file: "{{ stage_dir }}/silent_19db_config.rsp"
+silent_database19c_config_file: "{{ stage_dir }}/silent_19cdb_config.rsp"
 silent_listener_config_file: "{{ stage_dir }}/silent-lsnr19c-config.rsp"
 
 # OS user properties

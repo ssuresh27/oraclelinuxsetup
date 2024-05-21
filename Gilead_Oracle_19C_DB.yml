@@ -6,8 +6,9 @@
     # oracle_gold_image: /oradba/software/19.0.0/db_home_192200_Linux-x86-64_JAN2024.zip
     # oracle_user: oracle
     # oracle_install_group: oradba
-    db_port: 1526
+    # db_port: 1526
+    db_name: ANSIBLE
   roles:
-    # - 01_Gilead_OS_prereq_19c
-    # - 02_Gilead_install_dbsoftware_19c
+    - 01_Gilead_OS_prereq_19C
+    - 02_Gilead_install_dbsoftware_19c
     - 03_Gilead_create_db_19c
