@@ -61,6 +61,6 @@
 - name: Error Oracle Home image/software is not available 
   ansible.builtin.fail:
     msg: "Oracle Binary {{ oracle_gold_image }}  not exists"
-  when: ora_bin.stat.exists == False
+  when: not ora_bin.stat.exists
 
   
